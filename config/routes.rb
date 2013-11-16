@@ -6,6 +6,7 @@ FinalProj::Application.routes.draw do
 	get '/cabals', to: "cabals#index", as: "cabals"
 	get '/cabals/:id', to: "cabals#show", as: "cabal"
 	get '/newcabal', to: "cabals#new", as: "new_cabal"
+	post '/newcabal', to: "cabals#create", as: "create_cabal"
 
   resources :messages, only: [:index, :create]
   # The priority is based upon order of creation: first created -> highest priority.

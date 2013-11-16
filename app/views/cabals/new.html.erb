@@ -1,0 +1,9 @@
+<%= form_tag("/newcabal", method: "post") do %>
+  <%= label_tag(:name, "Cabal name:") %>
+  <%= text_field_tag(:name) %>
+  <%= label_tag(:date, "Activity date:") %>
+  <%= date_field_tag(:date) %>
+  <%= label_tag(:members, "Users you want to invite: (separated by commas)") %>
+  <%= text_area_tag(:members) %>
+  <%= submit_tag("Create") %>
+<% end %>

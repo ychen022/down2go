@@ -6,6 +6,11 @@ class CabalsController < ApplicationController
 	
 	def new
 		@cabal=Cabal.new
+	end
+	
+	def create
+		@cabal = Cabal.create_new_from_params(params)
+		@cabal.save
 		render :show
 	end
 	

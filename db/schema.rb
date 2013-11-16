@@ -11,11 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116050456) do
+ActiveRecord::Schema.define(version: 20131116144433) do
+
+  create_table "cabal_users", id: false, force: true do |t|
+    t.integer "user_id",  null: false
+    t.integer "cabal_id", null: false
+  end
 
   create_table "cabals", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "cabal_name"
+    t.date     "activity_date"
   end
 
   create_table "messages", force: true do |t|

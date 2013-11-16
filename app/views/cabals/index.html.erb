@@ -3,13 +3,13 @@
 		<tr class="cabals_table_heading">
       <th>Cabal Name</th>
       <th>Members</th>
-      <th>Last activity</th>
+      <th>For date</th>
     </tr>
     <% @cabals.each do |c| %>
       <tr class="cabals_table_row">
         <td><%= c.name %>
         <td><%= c.members_summary %></td>
-        <td><%= c.updated_at%></td>
+        <td><%= c.activity_date%></td>
       </tr>
     <% end %>
   </table>
