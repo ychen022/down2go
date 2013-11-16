@@ -1,7 +1,11 @@
 FinalProj::Application.routes.draw do
 
   devise_for :users
-  root :to => 'messages#index'
+  root :to => 'cabals#index'
+	
+	get '/cabals', to: "cabals#index", as: "cabals"
+	get '/cabals/:id', to: "cabals#show", as: "cabal"
+	get '/newcabal', to: "cabals#new", as: "new_cabal"
 
   resources :messages, only: [:index, :create]
   # The priority is based upon order of creation: first created -> highest priority.

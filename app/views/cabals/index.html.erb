@@ -1,0 +1,19 @@
+<div id="cabals_area">
+	<table id="cabals_table">
+		<tr class="cabals_table_heading">
+      <th>Cabal Name</th>
+      <th>Members</th>
+      <th>Last activity</th>
+    </tr>
+    <% @cabals.each do |c| %>
+      <tr class="cabals_table_row">
+        <td><%= c.name %>
+        <td><%= c.members_summary %></td>
+        <td><%= c.updated_at%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<%= link_to "Create new cabal", new_cabal_path %>
+    

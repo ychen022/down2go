@@ -1,0 +1,2 @@
+module CabalsHelper
+end
