@@ -4,4 +4,8 @@ class MessageObserver < ActiveRecord::Observer
     username = message.user.username
     Pusher[('cabal-' + cabal_id.to_s())].trigger!('chat', {:username => username, :content => message.content})
   end
+
+  def before_destroy(message)
+    
+  end
 end

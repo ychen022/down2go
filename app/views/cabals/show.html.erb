@@ -19,17 +19,22 @@
   $(function(){
     var geocoder;
     var map;
+    var pins = {};
     var image = '<%= image_path("pin.png") %>';
 
     function initialize() {
       geocoder = new google.maps.Geocoder();
       var latlng = new google.maps.LatLng(42.3581, -71.063);
       var mapOptions = {
-        zoom: 15,
+        zoom: 12,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      <% @pinpoints.each do |p| %>
+        var place_name = '<%= p.place %>';
+        add_pin(place_name);
+      <% end %>
     }
 
     function add_pin(place) {
@@ -40,6 +45,7 @@
               position: results[0].geometry.location,
               icon: image
           });
+          pins[place] =  marker;
         }
       });
     }
