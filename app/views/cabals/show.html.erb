@@ -1,40 +1,46 @@
-<div id="map_area">Map</div>
-<div id="agenda_area">Agenda</div>
-
-<script>
-$(function(){
-  var pusher = new Pusher('<%= Pusher.key %>'); 
-  var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
-  Pusher.log = function(message) {
-    if (window.console && window.console.log) {
-      window.console.log(message);
-    }
-  };
-  channel.bind('chat', function(data) {
-    $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+<div id="cabal_container">
+  <div id="map_area">Map</div>
+  <div id="agenda_area">Agenda</div>
+  <script>
+  $(function(){
+    var pusher = new Pusher('<%= Pusher.key %>'); 
+    var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+    channel.bind('chat', function(data) {
+      $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+    });
   });
-});
-</script>
-<div id="chat_area">
-  <div class="chat-dialog">
-  </div>
-  <%= form_for(@message, remote: true) do |f| %>
-    <%= f.text_area(:content, :class => 'chat-textarea', :placeholder => 'Enter your message here!') %> <br>
-    <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
-    <%= f.submit "Enter", class: "btn  btn-primary" %>
-  <% end %>
-</div>
-
-
-<div id="member_area">Members<br />
-  <table id="member_table">
-		<tr class="member_table_heading">
-      <th>Member Name</th>
-    </tr>
-    <% @cabal.users.each do |u| %>
-      <tr class="member_table_row">
-        <td><%= u.username %>
-      </tr>
+  </script>
+  <div id="chat_area">
+    <div class="chat-dialog">
+    </div>
+    <%= form_for(@message, remote: true) do |f| %>
+      <%= f.text_area(:content, :class => 'chat-textarea', :placeholder => 'Enter your message here!') %> <br>
+      <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
+      <%= f.submit "Enter", class: "btn  btn-primary" %>
     <% end %>
-  </table>
+  </div>
+  <div id="member_area">Members<br />
+    <table id="member_table">
+      <tr class="member_table_heading">
+        <th>Member Name</th>
+      </tr>
+      <% @cabal.users.each do |u| %>
+        <tr class="member_table_row">
+          <td><%= u.username %>
+        </tr>
+      <% end %>
+    </table>
+    <br />
+    <br />
+    <%= form_tag(add_cabal_member_path(@cabal), method: "post", remote: false) do %>
+      <%= label_tag(:username, "User to invite") %>
+      <%= text_field_tag(:username) %>
+      <%= submit_tag("Invite to cabal") %>
+    <% end %>
+  </div>
 </div>
