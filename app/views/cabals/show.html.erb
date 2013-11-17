@@ -45,7 +45,7 @@
       });
     });
 
-    google.maps.event.addDomListener(window, 'load', initialize);
+    initialize();
   });
 </script>
 
@@ -55,10 +55,11 @@
     </div>
   </div>
   <div id="agenda_area">
+    <button id="check-on-map">check on Map!</button><br>
     <%= form_for(@pinpoint, remote: true) do |f| %>
       Enter your place here:
       <%= f.text_field(:place, :id => "address") %><br>
-      <button id="check-on-map">check on Map!</button><br>
+      
       <select class="pinpoint-time">
         <option value="1:00">1:00</option>
         <option value="2:00">2:00</option>
