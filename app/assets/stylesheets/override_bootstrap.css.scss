@@ -1,0 +1,63 @@
+/* Primary Author: Lucy */
+
+$black:                 #000 !default;
+$grayDarker:            #222 !default;
+$grayDark:              #333 !default;
+$gray:                  #555 !default;
+$grayLight:             #999 !default;
+$grayLighter:           #eee !default;
+$white:                 #fff !default;
+
+$bodyBackground: #FFFFFF;
+
+$linkColor: #E68200;
+
+$navbarBackground:  #FFFFFF;
+$navbarBackgroundHighlight:  $navbarBackground;
+
+$btnWarningBackground:              #00727A;
+$btnWarningBackgroundHighlight:     #00727A;
+
+
+
+@import "bootstrap";
+
+h1 {
+  font-family: 'Doppio One', sans-serif;
+  font-size:60px;
+  line-height:120%;
+}
+
+
+h2 {
+    color: #212121;
+    font-family: 'Raleway', sans-serif;    
+    font-weight:200;
+
+    //font-family: 'Bubbler One', sans-serif;
+}
+
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+  text-decoration: none;
+  color: #333333;
+  background-color: #F7F7F7;
+  background-image: none; 
+  filter: none; }
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+  background-color: $white; }
+
+label {
+    //display:inline-block;
+}
+
+
+h3{
+    font-size:1.5em;
+}

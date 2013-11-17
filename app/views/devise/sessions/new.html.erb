@@ -1,17 +1,66 @@
-<h2>Sign in</h2>
+<% content_for :head do %>
+    <link href='http://fonts.googleapis.com/css?family=Doppio+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:200' rel='stylesheet' type='text/css'>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
+        </script>
+        <script type="text/javascript">
+            function initialize() {
+                var mapOptions = {
+center: new google.maps.LatLng(42.3598, -71.0921),
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        panControl: false, zoomControl: false, scaleControl:false,
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :username %><br />
-  <%= f.text_field :username, :autofocus => true %></div>
+            styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#092138"},{"lightness":0}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":30}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":27}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":39},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":28}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":29}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":30}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":27},{"weight":1.2}]}]
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
-
-  <div><%= f.submit "Sign in" %></div>
+                };
+                var map = new google.maps.Map(document.getElementById("landing"),
+                        mapOptions);
+            }
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div id="landing">
+</div>
+
+<div id="landingcontent">
+    <div class="container landingcontainer">
+
+        <div class="hero-text">
+            <h1>Plan Your Day With Friends</h1>
+
+            <p class="subtitles"><strong>Pinpoint</strong> locations on a map.</p>
+            <p class="subtitles">Generate an <strong>agenda</strong></p>
+            <p class="subtitles"><strong>Discuss</strong> your plan</p>
+        </div>
+
+
+        <div id="loginform">
+            <p class="subtitles">Already signed up?</p>
+
+            <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+                <div><%= f.label :username %>
+                    <%= f.text_field :username, :autofocus => true %></div>
+
+                <div><%= f.label :password %>
+                    <%= f.password_field :password %></div>
+
+                <% if devise_mapping.rememberable? -%>
+                    <div> 
+                        <%= f.label :remember_me do %>
+                            <%= f.check_box :remember_me %>
+                            Remember Me?
+                        <% end %>
+                    </div>
+                <% end -%>
+
+                <div><%= f.submit "Sign in" %></div>
+            <% end %>
+
+            <!--<%= render "devise/shared/links" %> -->
+        </div>
+    </div>
+</div>
+
