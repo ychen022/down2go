@@ -18,6 +18,7 @@ class CabalsController < ApplicationController
 	end
 	
 	def show
+		@cabal=Cabal.find_by_id(params[:id])
 	end
 	
 	private

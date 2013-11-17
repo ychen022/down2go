@@ -7,7 +7,7 @@
     </tr>
     <% @cabals.each do |c| %>
       <tr class="cabals_table_row">
-        <td><%= c.name %>
+        <td><%= link_to c.name, cabal_path(c) %>
         <td><%= c.members_summary %></td>
         <td><%= c.activity_date%></td>
       </tr>
