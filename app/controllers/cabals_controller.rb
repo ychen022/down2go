@@ -1,7 +1,11 @@
 class CabalsController < ApplicationController
-
+	before_action :authenticate_user!
+	
 	def index
 		@cabals=[]
+		if !current_user.cabals.nil?
+			@cabals=current_user.cabals
+		end
 	end
 	
 	def new
@@ -9,11 +13,13 @@ class CabalsController < ApplicationController
 	end
 	
 	def create
-		@cabal = Cabal.create_new_from_params(params)
-		@cabal.save
+		@cabal = Cabal.create_new_from_params(current_user,params)
 		render :show
 	end
 	
 	def show
 	end
+	
+	private
+		
 end
