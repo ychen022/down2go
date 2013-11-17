@@ -20,7 +20,9 @@ class CabalsController < ApplicationController
 	
 	def show
 		@cabal=Cabal.find_by_id(params[:id])
+		@pinpoints = @cabal.pinpoints
 		@message = Message.new(user_id: current_user.id, cabal_id: params[:id])
+		@pinpoint = Pinpoint.new(cabal_id: params[:id])
 	end
 	
 	# Add a member to the cabal. Will change to ajax later.

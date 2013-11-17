@@ -1,7 +1,4 @@
-<div id="cabal_container">
-  <div id="map_area">Map</div>
-  <div id="agenda_area">Agenda</div>
-  <script>
+<script>
   $(function(){
     var pusher = new Pusher('<%= Pusher.key %>'); 
     var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
@@ -14,7 +11,85 @@
       $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
     });
   });
-  </script>
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
+</script>
+<script type="text/javascript">
+  $(function(){
+    var geocoder;
+    var map;
+
+    function initialize() {
+      geocoder = new google.maps.Geocoder();
+      var latlng = new google.maps.LatLng(42.3581, -71.063);
+      var mapOptions = {
+        zoom: 15,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    }
+
+    $('#check-on-map').click(function(){
+      var address = document.getElementById('address').value;
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+          });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    });
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+  });
+</script>
+
+<div id="cabal_container">
+  <div id="map_area">
+    <div id="map-canvas">
+    </div>
+  </div>
+  <div id="agenda_area">
+    <%= form_for(@pinpoint, remote: true) do |f| %>
+      Enter your place here:
+      <%= f.text_field(:place, :id => "address") %><br>
+      <button id="check-on-map">check on Map!</button><br>
+      <select class="pinpoint-time">
+        <option value="1:00">1:00</option>
+        <option value="2:00">2:00</option>
+        <option value="3:00">3:00</option>
+        <option value="4:00">4:00</option>
+        <option value="5:00">5:00</option>
+        <option value="6:00">6:00</option>
+        <option value="7:00">7:00</option>
+        <option value="8:00">8:00</option>
+        <option value="9:00">9:00</option>
+        <option value="10:00">10:00</option>
+        <option value="11:00">11:00</option>
+        <option value="12:00" selected>12:00</option>
+      </select>
+      <select class="pinpoint-time-am">
+        <option value='' disabled selected style='display:none;'>Please Choose</option>
+        <option value="AM">AM</option>
+        <option value="PM" selected>PM</option>
+      </select>
+      <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
+      <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
+      <%= f.submit "Add to agenda" %>
+    <% end %>
+
+    <% @pinpoints.each do |p| %>
+      Info:<br>
+      <%= p.time %><br>
+      <%= p.place %><br>
+    <% end %>
+  </div>
+  
   <div id="chat_area">
     <div class="chat-dialog">
     </div>

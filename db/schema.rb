@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117145037) do
+ActiveRecord::Schema.define(version: 20131117183001) do
 
   create_table "cabal_users", id: false, force: true do |t|
     t.integer "user_id",  null: false
@@ -35,6 +35,16 @@ ActiveRecord::Schema.define(version: 20131117145037) do
 
   add_index "messages", ["cabal_id"], name: "index_messages_on_cabal_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+  create_table "pinpoints", force: true do |t|
+    t.string   "place"
+    t.time     "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "cabal_id"
+  end
+
+  add_index "pinpoints", ["cabal_id"], name: "index_pinpoints_on_cabal_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

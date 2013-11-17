@@ -1,10 +1,6 @@
 class MessagesController < ApplicationController
 	#before_action :authenticate_user!
 
-  def index 
-    @message = Message.new
-  end
-
   def create
     @message = current_user.messages.build(message_params)
     check_message_cabal

@@ -1,6 +1,7 @@
 class Cabal < ActiveRecord::Base
 	has_and_belongs_to_many :users, class_name: 'User', join_table: 'cabal_users'
 	has_many :messages
+	has_many :pinpoints
 	
 	# Creates a new cabal from the parameters and associates cabals and users
 	# TODO use errors properly
