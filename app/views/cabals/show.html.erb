@@ -10,6 +10,10 @@
     channel.bind('chat', function(data) {
       $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
     });
+    $.ajax({
+      url:'/cabals/'+<%=@cabal.id%>+'/sync', 
+      type: "get"
+    })
   });
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
@@ -75,11 +79,10 @@
     </div>
   </div>
   <div id="agenda_area">
-    <button id="check-on-map">check on Map!</button><br>
     <%= form_for(@pinpoint, remote: true) do |f| %>
       Enter your place here:
       <%= f.text_field(:place, :id => "address") %><br>
-      
+      <button type="button" id="check-on-map">check on Map!</button><br>
       <select class="pinpoint-time">
         <option value="1:00">1:00</option>
         <option value="2:00">2:00</option>
@@ -104,11 +107,15 @@
       <%= f.submit "Add to agenda" %>
     <% end %>
 
+    <div id="pinpoints_info">
+    <% if false %>
     <% @pinpoints.each do |p| %>
       Info:<br>
       <%= p.time %><br>
       <%= p.place %><br>
     <% end %>
+    <% end %>
+    </div>
   </div>
   
   <div id="chat_area">

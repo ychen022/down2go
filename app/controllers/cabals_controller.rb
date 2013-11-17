@@ -1,6 +1,6 @@
 class CabalsController < ApplicationController
 	before_action :authenticate_user!
-	before_action :set_cabal, only: [:show, :add_member]
+	before_action :set_cabal, only: [:show, :add_member, :sync]
 	before_action :init_message, only: [:show]
 	
 	def index
@@ -20,7 +20,6 @@ class CabalsController < ApplicationController
 	end
 	
 	def show
-		@cabal=Cabal.find_by_id(params[:id])
 		@pinpoints = @cabal.pinpoints
 		@pinpoint = Pinpoint.new(cabal_id: params[:id])
 	end
@@ -36,6 +35,13 @@ class CabalsController < ApplicationController
 			flash.now[:notice] = "Successfully added user to cabal"
 		end
 		redirect_to cabal_path(@cabal)
+	end
+		
+	def sync
+		@pinpoints=@cabal.pinpoints
+		respond_to do |format|
+			format.js
+		end
 	end
 	
 	private

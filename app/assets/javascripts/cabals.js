@@ -1,3 +1,4 @@
+var agenda_info=new Array();
 $(function(){
   $(".pinpoint-time").change(function(){
     var $time_field = $(".pinpoint-time-hidden");
@@ -12,4 +13,5 @@ $(function(){
     var time = $time_field_raw.val() + " " + $(this).val();
     $time_field.val(time);
   });
+  
 });
