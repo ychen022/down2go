@@ -10,7 +10,8 @@ FinalProj::Application.routes.draw do
 	post '/newcabal', to: "cabals#create", as: "create_cabal"
 
   resources :messages, only: [:create]
-  resources :pinpoints, only: [:create]
+  resources :pinpoints, only: [:create, :destroy]
+	get '/cabals/:id/sync', to: "cabals#sync", as: "sync_cabal"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,5 +1,6 @@
 class PinpointsController < ApplicationController
-    
+  before_action :set_pinpoint, only: [:destroy]
+	
   def create 
     @pinpoint = Pinpoint.create(pinpoint_params)
     check_pinpoint_cabal
@@ -11,6 +12,14 @@ class PinpointsController < ApplicationController
       end
     end
   end
+	
+	def destroy
+		respond_to do |format|
+			format.js
+		end
+		@pinpoint.destroy
+	end
+	
 
   private
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -24,4 +33,8 @@ class PinpointsController < ApplicationController
         redirect_to(root_url) 
       end
     end
+		
+		def set_pinpoint
+			@pinpoint = Pinpoint.find_by_id(params[:id])
+		end
 end
