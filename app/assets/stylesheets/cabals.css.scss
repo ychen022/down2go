@@ -2,7 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#map_area{width:400px;height:300px;border:solid 2px blue;}
-#agenda_area{width:300px;height:300px;border:solid 1px black; float:right;}
-#chat_area{width:400px;height:200px;border:solid 1px black;}
-#member_area{width:400px;height:300px;border:solid 1px black; float:right;}
+#cabal_container{position:relative}
+#map_area{width:auto;height:300px;border:solid 2px blue; margin-left:2px; margin-right: 700px; margin-top:30px;}
+#agenda_area{width:300px;height:600px;border:solid 1px black; position:absolute; right: 300px; top: 0px;}
+#chat_area{width:auto;height:200px;border:solid 1px black; margin-left:2px; margin-right: 700px; margin-top:50px;}
+#member_area{width:200px;height:600px;border:solid 1px black; position: absolute; right: 30px; top: 0px;}

@@ -1,15 +1,24 @@
-<div id="map_area">Map</div>
-<div id="agenda_area">Agenda</div>
-<div id="chat_area">Chat</div>
-<div id="member_area">Members<br />
-  <table id="member_table">
-		<tr class="member_table_heading">
-      <th>Member Name</th>
-    </tr>
-    <% @cabal.users.each do |u| %>
-      <tr class="member_table_row">
-        <td><%= u.username %>
+<div id="cabal_container">
+  <div id="map_area">Map</div>
+  <div id="agenda_area">Agenda</div>
+  <div id="chat_area">Chat</div>
+  <div id="member_area">Members<br />
+    <table id="member_table">
+      <tr class="member_table_heading">
+        <th>Member Name</th>
       </tr>
+      <% @cabal.users.each do |u| %>
+        <tr class="member_table_row">
+          <td><%= u.username %>
+        </tr>
+      <% end %>
+    </table>
+    <br />
+    <br />
+    <%= form_tag(add_cabal_member_path(@cabal), method: "post", remote: false) do %>
+      <%= label_tag(:username, "User to invite") %>
+      <%= text_field_tag(:username) %>
+      <%= submit_tag("Invite to cabal") %>
     <% end %>
-  </table>
+  </div>
 </div>

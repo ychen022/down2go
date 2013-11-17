@@ -1,5 +1,6 @@
 class CabalsController < ApplicationController
 	before_action :authenticate_user!
+	before_action :set_cabal, only: [:show, :add_member]
 	
 	def index
 		@cabals=[]
@@ -18,9 +19,23 @@ class CabalsController < ApplicationController
 	end
 	
 	def show
-		@cabal=Cabal.find_by_id(params[:id])
+	end
+	
+	# Add a member to the cabal. Will change to ajax later.
+	def add_member
+		result=@cabal.add_member(params[:username])
+		if result==0
+			flash.now[:alert] = "User does not exist"
+		elsif result==-1
+			flash.now[:alert] = "User already in cabal"
+		else
+			flash.now[:notice] = "Successfully added user to cabal"
+		end
+		render :show 
 	end
 	
 	private
-		
+		def set_cabal
+			@cabal=Cabal.find_by_id(params[:id])
+		end
 end
