@@ -1,6 +1,7 @@
 class CabalsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :set_cabal, only: [:show, :add_member]
+	before_action :init_message, only: [:show]
 	
 	def index
 		@cabals=[]
@@ -15,12 +16,11 @@ class CabalsController < ApplicationController
 	
 	def create
 		@cabal = Cabal.create_new_from_params(current_user,params)
-		render :show
+		redirect_to cabal_path(@cabal)
 	end
 	
 	def show
 		@cabal=Cabal.find_by_id(params[:id])
-		@message = Message.new(user_id: current_user.id, cabal_id: params[:id])
 	end
 	
 	# Add a member to the cabal. Will change to ajax later.
@@ -33,11 +33,15 @@ class CabalsController < ApplicationController
 		else
 			flash.now[:notice] = "Successfully added user to cabal"
 		end
-		render :show 
+		redirect_to cabal_path(@cabal)
 	end
 	
 	private
 		def set_cabal
 			@cabal=Cabal.find_by_id(params[:id])
+		end
+		
+		def init_message
+			@message = Message.new(user_id: current_user.id, cabal_id: params[:id])
 		end
 end
