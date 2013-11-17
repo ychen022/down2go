@@ -2,24 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.main-container {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 40px;
-  width: 700px;
-  background-color: #f7f7f9; 
-  border: 1px solid #e1e1e8; 
-  border-radius: 4px;
-  min-height: 500px;
-}
-
-.chat-main {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 40px;
-  width: 500px;
-}
-
 .chat-dialog {
   background: white;
   border: 1px solid #e1e1e8; 
@@ -30,7 +12,7 @@
 }
 
 .chat-textarea {
-  width: 450px;
+  width: 80%;
   border: 1px solid #e1e1e8; 
   height: 80px;
 }

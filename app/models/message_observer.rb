@@ -1,5 +1,7 @@
 class MessageObserver < ActiveRecord::Observer
   def after_create(message)
-    Pusher['chat'].trigger!('messages', {:content => message.content})
+    cabal_id = message.cabal_id
+    username = message.user.username
+    Pusher[('cabal-' + cabal_id.to_s())].trigger!('chat', {:username => username, :content => message.content})
   end
 end

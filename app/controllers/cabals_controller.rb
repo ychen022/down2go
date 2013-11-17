@@ -19,6 +19,7 @@ class CabalsController < ApplicationController
 	
 	def show
 		@cabal=Cabal.find_by_id(params[:id])
+		@message = Message.new(user_id: current_user.id, cabal_id: params[:id])
 	end
 	
 	private
