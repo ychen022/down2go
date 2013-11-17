@@ -14,10 +14,12 @@
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
 </script>
+
 <script type="text/javascript">
   $(function(){
     var geocoder;
     var map;
+    var image = '<%= image_path("pin.png") %>';
 
     function initialize() {
       geocoder = new google.maps.Geocoder();
@@ -26,8 +28,20 @@
         zoom: 15,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
+      };
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    }
+
+    function add_pin(place) {
+      geocoder.geocode( { 'address': place}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              icon: image
+          });
+        }
+      });
     }
 
     $('#check-on-map').click(function(){
