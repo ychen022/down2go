@@ -5,7 +5,23 @@ var updateAgendaArray = function(id, time, place){
     var dateB=new Date(b.time);
     return dateA-dateB;
   });
+  
+  addPinToMap(id, time, place);
 }
+
+var addPinToMap = function(id, time, place){
+  console.log("updating map");
+  add_pin(id, place, time);
+  console.log("map updated");
+}
+
+var removePinFromMap = function(id){
+  if (pins[id]!=null){
+    pins[id].setMap(null);
+    delete pins[id];
+  }
+}
+
 var rewriteAgenda = function(){
   infoText="";
   for (var i=0; i<agenda_info.length;i++){

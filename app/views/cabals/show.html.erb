@@ -20,13 +20,9 @@
 </script>
 
 <script type="text/javascript">
-  $(function(){
-    var geocoder;
-    var map;
-    var pins = {};
     var image = '<%= image_path("pin.png") %>';
 
-    function initialize() {
+    var initialize=function() {
       geocoder = new google.maps.Geocoder();
       var latlng = new google.maps.LatLng(42.3581, -71.063);
       var mapOptions = {
@@ -36,24 +32,34 @@
       };
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       <% @pinpoints.each do |p| %>
+        var place_id = '<%= p.id %>';
         var place_name = '<%= p.place %>';
-        add_pin(place_name);
+        var place_time = '<%= p.time %>';
+        add_pin(place_name, place_time);
       <% end %>
+      console.log("Map initialized");
     }
 
-    function add_pin(place) {
+    var add_pin=function(id, place, time) {
+      console.log("Adding pin");
       geocoder.geocode( { 'address': place}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var marker = new google.maps.Marker({
               map: map,
               position: results[0].geometry.location,
-              icon: image
+              icon: image,
+              title: place
           });
-          pins[place] =  marker;
+          pins[id] =  marker;
         }
       });
+      console.log("Pin added");
     }
 
+    
+
+  $(function(){
+    initialize();
     $('#check-on-map').click(function(){
       var address = document.getElementById('address').value;
       geocoder.geocode( { 'address': address}, function(results, status) {
@@ -68,8 +74,6 @@
         }
       });
     });
-
-    initialize();
   });
 </script>
 
