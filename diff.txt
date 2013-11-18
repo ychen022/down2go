@@ -1,0 +1,188 @@
+diff --git a/app/controllers/cabals_controller.rb b/app/controllers/cabals_controller.rb
+index 376e966..4d5de64 100644
+--- a/app/controllers/cabals_controller.rb
++++ b/app/controllers/cabals_controller.rb
+@@ -28,11 +28,11 @@ class CabalsController < ApplicationController
+ 	def add_member
+ 		result=@cabal.add_member(params[:username])
+ 		if result==0
+-			flash.now[:alert] = "User does not exist"
++			flash[:alert] = "User does not exist"
+ 		elsif result==-1
+-			flash.now[:alert] = "User already in cabal"
++			flash[:alert] = "User already in cabal"
+ 		else
+-			flash.now[:notice] = "Successfully added user to cabal"
++			flash[:notice] = "Successfully added user to cabal"
+ 		end
+ 		redirect_to cabal_path(@cabal)
+ 	end
+diff --git a/app/controllers/messages_controller.rb b/app/controllers/messages_controller.rb
+index 1759c24..bfbbbb9 100644
+--- a/app/controllers/messages_controller.rb
++++ b/app/controllers/messages_controller.rb
+@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
+       if @message.save 
+         format.js 
+       else
+-        format.js
++        format.js { render :action => "create_fail" }
+       end
+     end
+   end
+diff --git a/app/controllers/pinpoints_controller.rb b/app/controllers/pinpoints_controller.rb
+index c1935b7..9f647b0 100644
+--- a/app/controllers/pinpoints_controller.rb
++++ b/app/controllers/pinpoints_controller.rb
+@@ -8,7 +8,7 @@ class PinpointsController < ApplicationController
+       if @pinpoint.save 
+         format.js 
+       else
+-        format.js
++        format.js { render :action => "create_fail" }
+       end
+     end
+   end
+diff --git a/app/models/message_observer.rb b/app/models/message_observer.rb
+index 827f6d5..8115d10 100644
+--- a/app/models/message_observer.rb
++++ b/app/models/message_observer.rb
+@@ -4,8 +4,4 @@ class MessageObserver < ActiveRecord::Observer
+     username = message.user.username
+     Pusher[('cabal-' + cabal_id.to_s())].trigger!('chat', {:username => username, :content => message.content})
+   end
+-
+-  def before_destroy(message)
+-    
+-  end
+ end
+diff --git a/app/models/pinpoint_observer.rb b/app/models/pinpoint_observer.rb
+index fa4fe70..3ee6ff5 100644
+--- a/app/models/pinpoint_observer.rb
++++ b/app/models/pinpoint_observer.rb
+@@ -3,10 +3,11 @@ class PinpointObserver < ActiveRecord::Observer
+     place = pinpoint.place
+     time = pinpoint.time
+     cabal_id = pinpoint.cabal_id
+-    Pusher[('cabal-' + cabal_id.to_s())].trigger!('pinpoint', {:place => place, :time => time})
++    Pusher[('cabal-' + cabal_id.to_s())].trigger!('pinpoint', {:id => pinpoint.id, :place => place, :time => time})
+   end
+ 
+   def before_destroy(pinpoint)
+-    
++    cabal_id = pinpoint.cabal_id
++    Pusher[('cabal-' + cabal_id.to_s())].trigger!('delete-pinpoint', {:id => pinpoint.id})
+   end 
+ end
+diff --git a/app/views/cabals/show.html.erb b/app/views/cabals/show.html.erb
+index 9af5e35..992a61a 100644
+--- a/app/views/cabals/show.html.erb
++++ b/app/views/cabals/show.html.erb
+@@ -10,6 +10,13 @@
+     channel.bind('chat', function(data) {
+       $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+     });
++    channel.bind('pinpoint', function(data) {
++      updateAgendaArray(data.id, data.time, data.place);
++      rewriteAgenda();
++    });
++    channel.bind('delete-pinpoint', function(data){
++      removeAgendaItem(data.id);
++    });
+     $.ajax({
+       url:'/cabals/'+<%=@cabal.id%>+'/sync', 
+       type: "get"
+@@ -80,6 +87,7 @@
+   </div>
+   <div id="agenda_area">
+     <%= form_for(@pinpoint, remote: true) do |f| %>
++      <div class="new-pinpoint-error"></div>
+       Enter your place here:
+       <%= f.text_field(:place, :id => "address") %><br>
+       <button type="button" id="check-on-map">check on Map!</button><br>
+@@ -122,6 +130,7 @@
+     <div class="chat-dialog">
+     </div>
+     <%= form_for(@message, remote: true) do |f| %>
++      <div class="new-message-error"></div>
+       <%= f.text_area(:content, :class => 'chat-textarea', :placeholder => 'Enter your message here!') %> <br>
+       <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
+       <%= f.submit "Enter", class: "btn  btn-primary" %>
+diff --git a/app/views/devise/sessions/new.html.erb b/app/views/devise/sessions/new.html.erb
+index ef0127b..117f2dc 100644
+--- a/app/views/devise/sessions/new.html.erb
++++ b/app/views/devise/sessions/new.html.erb
+@@ -41,21 +41,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
+             <p class="subtitles">Already signed up?</p>
+ 
+             <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
++                <%= devise_error_messages! %>
++                
+                 <div><%= f.label :username %>
+                     <%= f.text_field :username, :autofocus => true %></div>
+ 
+                 <div><%= f.label :password %>
+                     <%= f.password_field :password %></div>
+ 
+-                <% if devise_mapping.rememberable? -%>
+-                    <div> 
+-                        <%= f.label :remember_me do %>
+-                            <%= f.check_box :remember_me %>
+-                            Remember Me?
+-                        <% end %>
+-                    </div>
+-                <% end -%>
+-
+                 <div><%= f.submit "Sign in" %></div>
+             <% end %>
+ 
+diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb
+index e1523d8..e959b51 100644
+--- a/app/views/layouts/application.html.erb
++++ b/app/views/layouts/application.html.erb
+@@ -11,8 +11,12 @@
+     <body>
+         <%= render 'partials/navbar' %>
+         <div style="padding-top:90px">
+-            <p class="notice"><%= notice %></p>
+-            <p class="alert"><%= alert %></p>
++            <% if notice %>
++                <p class="alert"><%= notice %></p>
++            <% end %>
++            <% if alert %>
++                <p class="alert"><%= alert %></p>
++            <% end %>
+             <!--
+             <%= link_to "Home", root_url %>
+             <%= link_to "Logout", destroy_user_session_path %>
+diff --git a/app/views/pinpoints/create.js.erb b/app/views/pinpoints/create.js.erb
+index 3b960f2..6c5138a 100644
+--- a/app/views/pinpoints/create.js.erb
++++ b/app/views/pinpoints/create.js.erb
+@@ -1,6 +1 @@
+ $('#address').val("");
+-
+-
+-
+-updateAgendaArray('<%=@pinpoint.id%>', '<%=@pinpoint.time%>', '<%=@pinpoint.place%>');
+-rewriteAgenda();
+diff --git a/app/views/pinpoints/destroy.js.erb b/app/views/pinpoints/destroy.js.erb
+index f41ef11..8b13789 100644
+--- a/app/views/pinpoints/destroy.js.erb
++++ b/app/views/pinpoints/destroy.js.erb
+@@ -1,2 +1 @@
+-var theid=<%=@pinpoint.id%>;
+-removeAgendaItem(theid);
++
+diff --git a/config/application.rb b/config/application.rb
+index 319b057..a98eaa8 100644
+--- a/config/application.rb
++++ b/config/application.rb
+@@ -21,6 +21,6 @@ module FinalProj
+     # config.i18n.default_locale = :de
+ 
+     # register observer
+-    config.active_record.observers = :message_observer
++    config.active_record.observers = :message_observer, :pinpoint_observer
+   end
+ end

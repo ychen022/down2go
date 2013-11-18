@@ -6,26 +6,44 @@
 }
 
 #map_area{
-  width:600px;
-  height:600px;
-  border:solid 2px blue; 
-  margin-left:2px; 
-  margin-right: 700px; 
-  margin-top:30px;
-
-  #map-canvas{
-    height: 100%;
-  }
-
-  .gmnoprint img { max-width: none; }
+    width:600px;
+    height:600px;
+    border:solid 2px blue; 
+    margin-left:2px; 
+    margin-right: 700px; 
+    margin-top:30px;
 }
 
-#agenda_area{width:300px;height:600px;border:solid 1px black; position:absolute; right: 150px; top: 0px;}
+#map-canvas{
+    height: 100%;
+}
 
-#chat_area
-{width:400px;
-height:500px;
-border:solid 1px black;
-padding: 20px;}
+.gmnoprint img { 
+    max-width: none; 
+}
 
-#member_area{width:200px;height:600px;border:solid 1px black; position: absolute; right: 30px; top: 0px;}
+
+#agenda_area{
+    width:300px;
+    height:600px;
+    border:solid 1px black; 
+    position:absolute; 
+    right: 150px; 
+    top: 0px;
+}
+
+#chat_area{
+    width:400px;
+    height:500px;
+    border:solid 1px black;
+    padding: 20px;
+}
+
+#member_area{
+    width:200px;
+    height:600px;
+    border:solid 1px black; 
+    position: absolute; 
+    right: 30px; 
+    top: 0px;
+}

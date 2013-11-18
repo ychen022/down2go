@@ -1,97 +1,23 @@
-<script>
-    $(function(){
-        var pusher = new Pusher('<%= Pusher.key %>'); 
-        var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
-        Pusher.log = function(message) {
-            if (window.console && window.console.log) {
-                window.console.log(message);
-            }
-        };
-        channel.bind('chat', function(data) {
-            $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
-        });
-        $.ajax({
-            url:'/cabals/'+<%=@cabal.id%>+'/sync', 
-            type: "get"
-        })
-    });
-</script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
-</script>
+<%= render "mapjs.js" %>
 
-<script type="text/javascript">
-    var image = '<%= image_path("pin.png") %>';
+<div id="cabal_container">
 
-    var initialize=function() {
-        geocoder = new google.maps.Geocoder();
-        var latlng = new google.maps.LatLng(42.3581, -71.063);
-        var mapOptions = {
-zoom: 12,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        <% @pinpoints.each do |p| %>
-                var place_id = '<%= p.id %>';
-        var place_name = '<%= p.place %>';
-        var place_time = '<%= p.time %>';
-        add_pin(place_name, place_time);
-    <% end %>
-        console.log("Map initialized");
-    }
-
-var add_pin=function(id, place, time) {
-    console.log("Adding pin");
-    geocoder.geocode( { 'address': place}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-            var marker = new google.maps.Marker({
-map: map,
-position: results[0].geometry.location,
-icon: image,
-title: place
-});
-            pins[id] =  marker;
-            }
-            });
-console.log("Pin added");
-}
-
-
-
-$(function(){
-        initialize();
-        $('#check-on-map').click(function(){
-            var address = document.getElementById('address').value;
-            geocoder.geocode( { 'address': address}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-map: map,
-position: results[0].geometry.location
-});
-                } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-                }
-                });
-            });
-        });
-    </script>
-
-    <div id="cabal_container">
-        
-        <div id="map_area">
-            <div id="map-canvas">
-            </div>
+    <div id="map_area">
+        <div id="map-canvas">
         </div>
+    </div>
 
-        <div id="agenda_area">
-            <%= render "agenda" %>
-        </div>
+    <div id="agenda_area">
+        <%= render "agenda" %>
+    </div>
 
-        <div id="chat_area">
-            <%= render "chat" %>
-        </div>
+    <div id="chat_area">
+        <%= render "chat" %>
+    </div>
 
-        <div id="member_area">Members<br />
-            <%= render "members" %>
-        </div>
+    <div id="member_area">Members<br />
+        <%= render "members" %>
+    </div>
+</div>
+
+
