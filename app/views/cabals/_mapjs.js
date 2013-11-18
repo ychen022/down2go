@@ -25,8 +25,6 @@ $(function(){
 });
 </script>
 
-
-
 <script type="text/javascript">
 var image = '<%= image_path("pin.png") %>';
 
