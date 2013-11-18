@@ -41,6 +41,14 @@ $(function(){
         <div id="loginform">
             <p class="subtitles">Already signed up?</p>
 
+            <% if notice %>
+                <p class="alert"><%= notice %></p>
+            <% end %>
+            <% if alert %>
+                <p class="alert"><%= alert %></p>
+            <% end %>
+
+
             <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
                 <%= devise_error_messages! %>
                 

@@ -1,11 +1,11 @@
-<% @cabal.users.each do |u| %>
-    <%= u.username %> 
-<% end %>
+
+<%= @cabal.users.map { |user| user.username }.join(", ") %>
+
 <br />
 <br />
 <%= form_tag(add_cabal_member_path(@cabal), method: "post", remote: false) do %>
-    <%= label_tag(:username, "User to invite") %>
+    <%= label_tag(:username, "User to invite to cabal") %>
     <%= text_field_tag(:username, nil, :class => "span2" ) %>
-    <%= submit_tag("Invite to cabal") %>
+    <%= submit_tag("invite", :class=> "submitBtn pull-right" ) %>
 <% end %>
 </div>

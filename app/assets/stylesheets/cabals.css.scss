@@ -139,6 +139,12 @@
     box-shadow: 0 3px 0px #D4BB00;
 }
 
+#gomembers:hover{
+    background-color: #F2D600;
+    text-decoration: none;
+    color: #fff;
+}
+
 #gochat{
     width: 100px;
     float:left;
@@ -152,6 +158,12 @@
     -webkit-box-shadow: 0 3px 0px #E3A600;
     -moz-box-shadow: 0 3px 0px #E3A600;
     box-shadow: 0 3px 0px #E3A600;
+}
+
+#gochat:hover{
+    background-color: #F5B400;
+    text-decoration: none;
+    color: #fff;
 }
 
 #new_cabal_form{
