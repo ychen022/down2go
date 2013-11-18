@@ -1,11 +1,8 @@
 FinalProj::Application.configure do
   require 'pusher'
-  #Pusher.app_id = '59101'
-  #Pusher.key = 'e533899d93c006c38d46'
-  #Pusher.secret = '5d80a8da984e48a11da3'
-	Pusher.app_id = '58962'
-  Pusher.key = 'b85bfb4e8c9bc47f35d2'
-  Pusher.secret = '0aa5ae65837fd0b80f4c'
+  Pusher.app_id = '59101'
+  Pusher.key = 'e533899d93c006c38d46'
+  Pusher.secret = '5d80a8da984e48a11da3'
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
