@@ -25,7 +25,8 @@
 #agenda_area{
     position:absolute; 
     width:200px;
-    height:100%;
+    height:500px;
+    overflow:auto;
     top: 90px;
     right: 0px;
     background-color: #fff;
@@ -45,7 +46,7 @@
     background-color: #B0B0B0;
     border: none;
     border-radius: 3px;
-        -webkit-box-shadow: 0 3px 0px #919191;
+    -webkit-box-shadow: 0 3px 0px #919191;
     -moz-box-shadow: 0 3px 0px #919191;
     box-shadow: 0 3px 0px #919191;
 }
@@ -73,7 +74,7 @@
     background-color: #9A79BD;
     border: none;
     border-radius: 3px;
-        -webkit-box-shadow: 0 3px 0px #6B5285;
+    -webkit-box-shadow: 0 3px 0px #6B5285;
     -moz-box-shadow: 0 3px 0px #6B5285;
     box-shadow: 0 3px 0px #6B5285;
 }
@@ -97,19 +98,60 @@
 }
 
 #chat_area{
-    width:400px;
-    height:500px;
-    border:solid 1px black;
-    padding: 20px;
+    position:absolute;
+    bottom:0px;
+    left: 0px;
+    width:700px;
+    height:140px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #member_area{
     width:200px;
-    height:600px;
-    border:solid 1px black; 
+    height:200px;
+    background-color: #fff;
     position: absolute; 
-    right: 30px; 
-    top: 0px;
+    right: 250px; 
+    bottom: 0px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.action-buttons{
+    position:absolute;
+    top: 90px;
+    right: 250px;
+}
+
+#gomembers{
+    width: 100px;
+    float:left;
+    padding: 10px 10px;
+    text-align: center;
+    display:inline-block;
+    background-color: #FADD00;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0px 5px 5px 0px;
+    -webkit-box-shadow: 0 3px 0px #D4BB00;
+    -moz-box-shadow: 0 3px 0px #D4BB00;
+    box-shadow: 0 3px 0px #D4BB00;
+}
+
+#gochat{
+    width: 100px;
+    float:left;
+    padding: 10px 10px;
+    text-align: center;
+    display:inline-block;
+    background-color: #FFBB00;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 5px 0px 0px 5px;
+    -webkit-box-shadow: 0 3px 0px #E3A600;
+    -moz-box-shadow: 0 3px 0px #E3A600;
+    box-shadow: 0 3px 0px #E3A600;
 }
 
 #new_cabal_form{

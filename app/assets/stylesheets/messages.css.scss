@@ -3,16 +3,38 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .chat-dialog {
-  background: white;
-  border: 1px solid #e1e1e8; 
-  border-radius: 4px;
-  min-height: 300px;
-  overflow: scroll;
-  margin-bottom: 20px;
+    background: white;
+    border: 1px solid #e1e1e8; 
+    border-radius: 4px;
+    height: 90px;
+    overflow-x: hidden;
+    border-bottom: 1px solid #C9C9C9;
 }
 
 .chat-textarea {
-  width: 80%;
-  border: 1px solid #e1e1e8; 
-  height: 80px;
+    height: 20px;
+    width:620px;
+    border-top: 1px solid #C9C9C9;
+    display: inline;
+    float:left;
+}
+
+.submitBtn{
+    display: inline;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #60BF11;
+    border: none;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 3px 0px #49960B;
+    -moz-box-shadow: 0 3px 0px #49960B;
+    box-shadow: 0 3px 0px #49960B;
+}
+
+.submitBtn:hover{
+    color: #fff;
+    background-color: #55AD0C;
+    text-decoration: none;
 }
