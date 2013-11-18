@@ -10,6 +10,14 @@
     channel.bind('chat', function(data) {
       $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
     });
+    channel.bind('pinpoint', function(data) {
+      updateAgendaArray(data.id, data.time, data.place);
+      rewriteAgenda();
+    });
+    channel.bind('delete-pinpoint', function(data){
+      removeAgendaItem(data.id);
+      removePinFromMap(data.id);
+    });
     $.ajax({
       url:'/cabals/'+<%=@cabal.id%>+'/sync', 
       type: "get"
@@ -84,6 +92,7 @@
   </div>
   <div id="agenda_area">
     <%= form_for(@pinpoint, remote: true) do |f| %>
+      <div class="new-pinpoint-error"></div>
       Enter your place here:
       <%= f.text_field(:place, :id => "address") %><br>
       <button type="button" id="check-on-map">check on Map!</button><br>
@@ -126,6 +135,7 @@
     <div class="chat-dialog">
     </div>
     <%= form_for(@message, remote: true) do |f| %>
+      <div class="new-message-error"></div>
       <%= f.text_area(:content, :class => 'chat-textarea', :placeholder => 'Enter your message here!') %> <br>
       <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
       <%= f.submit "Enter", class: "btn  btn-primary" %>

@@ -21,6 +21,6 @@ module FinalProj
     # config.i18n.default_locale = :de
 
     # register observer
-    config.active_record.observers = :message_observer
+    config.active_record.observers = :message_observer, :pinpoint_observer
   end
 end
