@@ -26,11 +26,11 @@ var rewriteAgenda = function(){
   infoText="";
   for (var i=0; i<agenda_info.length;i++){
     infoText+='<div class="info_line agendalist" id='+agenda_info[i].id+'>'
+    infoText+='<a data-method="delete" data-remote="true" href="/pinpoints/'+agenda_info[i].id.toString()+'" rel="nofollow"><span class="glyphicon glyphicon-remove pull-right" ></span></a>' 
     infoText+=agenda_info[i].time;
     infoText+="<br />";
     infoText+=agenda_info[i].place;
     infoText+="<br />";
-    infoText+='<a data-method="delete" data-remote="true" href="/pinpoints/'+agenda_info[i].id.toString()+'" rel="nofollow">delete</a>';
     infoText+="</div>";
   }
   $("#pinpoints_info").html(infoText);
