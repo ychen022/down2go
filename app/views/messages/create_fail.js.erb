@@ -1,0 +1,5 @@
+//When a creation failed, add error messages to error message area.
+(function(){
+  var error_messages = "<%= escape_javascript(render 'shared/error_messages', object: @message) %>";
+  $('.new-message-error').html(error_messages);
+})();

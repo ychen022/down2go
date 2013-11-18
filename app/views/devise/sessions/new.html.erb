@@ -41,20 +41,13 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <p class="subtitles">Already signed up?</p>
 
             <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+                <%= devise_error_messages! %>
+                
                 <div><%= f.label :username %>
                     <%= f.text_field :username, :autofocus => true %></div>
 
                 <div><%= f.label :password %>
                     <%= f.password_field :password %></div>
-
-                <% if devise_mapping.rememberable? -%>
-                    <div> 
-                        <%= f.label :remember_me do %>
-                            <%= f.check_box :remember_me %>
-                            Remember Me?
-                        <% end %>
-                    </div>
-                <% end -%>
 
                 <div><%= f.submit "Sign in" %></div>
             <% end %>

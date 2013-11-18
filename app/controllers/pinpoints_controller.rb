@@ -8,7 +8,7 @@ class PinpointsController < ApplicationController
       if @pinpoint.save 
         format.js 
       else
-        format.js
+        format.js { render :action => "create_fail" }
       end
     end
   end
