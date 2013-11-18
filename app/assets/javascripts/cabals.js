@@ -6,6 +6,7 @@ var map;
 
 var ready;
 ready = function() {
+  //When changing the time field, the hidden field updates
   $(".pinpoint-time").change(function(){
     var $time_field = $(".pinpoint-time-hidden");
     var $time_field_am = $(".pinpoint-time-am");
@@ -13,6 +14,7 @@ ready = function() {
     $time_field.val(time);
   });
 
+  //When changing the time am field, the hidden field updates
   $(".pinpoint-time-am").change(function(){
     var $time_field = $(".pinpoint-time-hidden");
     var $time_field_raw = $(".pinpoint-time");
@@ -20,6 +22,7 @@ ready = function() {
     $time_field.val(time);
   });
 
+  //When clicking #gochat button, the chat area toggles
   $('#gochat').click(function(){
     var $chat_area = $('#chat_area');
     if($chat_area.css("display") == "none"){
@@ -29,6 +32,7 @@ ready = function() {
     }
   });
 
+  //When clicking #gomembers button, the member area toggles
   $('#gomembers').click(function(){
     var $member_area = $('#member_area');
     if($member_area.css("display") == "none"){
