@@ -1,4 +1,7 @@
 var agenda_info=new Array();
+var pins={};
+var geocoder;
+var map;
 $(function(){
   $(".pinpoint-time").change(function(){
     var $time_field = $(".pinpoint-time-hidden");
