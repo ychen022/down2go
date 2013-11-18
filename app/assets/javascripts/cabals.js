@@ -1,3 +1,4 @@
+// TODO change those global variables to more secure implementations.
 var agenda_info=new Array();
 var pins={};
 var geocoder;
