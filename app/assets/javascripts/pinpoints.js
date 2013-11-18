@@ -25,7 +25,7 @@ var removePinFromMap = function(id){
 var rewriteAgenda = function(){
   infoText="";
   for (var i=0; i<agenda_info.length;i++){
-    infoText+='<div class="info_line" id='+agenda_info[i].id+'>'
+    infoText+='<div class="info_line agendalist" id='+agenda_info[i].id+'>'
     infoText+=agenda_info[i].time;
     infoText+="<br />";
     infoText+=agenda_info[i].place;

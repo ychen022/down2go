@@ -23,8 +23,6 @@ $(function(){
         type: "get"
     })
 });
-
-
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
 </script>
