@@ -1,5 +1,5 @@
 <% @pinpoints.each do |p| %>
-updateAgendaArray('<%=p.id%>','<%=p.time%>','<%=p.place%>')
+updateAgendaArray('<%=p.id%>','<%=p.time.strftime("%I:%M %p")%>','<%=p.place%>')
 <% end %>
 
 rewriteAgenda();
