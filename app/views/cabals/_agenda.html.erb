@@ -1,9 +1,14 @@
 <%= form_for(@pinpoint, remote: true) do |f| %>
     <div class="new-pinpoint-error"></div>
-    Enter your place here:
-    <%= f.text_field(:place, :id => "address") %><br>
-    <button type="button" id="check-on-map">check on Map!</button><br>
-    <select class="pinpoint-time">
+
+    <p class="agendalabel">Enter your place here:</p>
+
+    <%= f.text_field(:place, :id => "address", placeholder: "MIT, Cambridge", class: "inputWrap") %><br>
+
+    <button type="button" id="check-on-map" class="agendamapbtn">find it on the map!</button><br>
+    <br><br>
+
+    <select class="pinpoint-time timedropdown">
         <option value="1:00">1:00</option>
         <option value="2:00">2:00</option>
         <option value="3:00">3:00</option>
@@ -17,22 +22,26 @@
         <option value="11:00">11:00</option>
         <option value="12:00" selected>12:00</option>
     </select>
-    <select class="pinpoint-time-am">
+
+    <select class="pinpoint-time-am amdropdown">
         <option value='' disabled selected style='display:none;'>Please Choose</option>
         <option value="AM">AM</option>
         <option value="PM" selected>PM</option>
     </select>
+
     <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
     <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
-    <%= f.submit "Add to agenda" %>
+    <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
 <% end %>
 
 <div id="pinpoints_info">
     <% if false %>
         <% @pinpoints.each do |p| %>
-            Info:<br>
-            <%= p.time %><br>
-            <%= p.place %><br>
+            <div class="agendalist">
+                Info:<br>
+                <%= p.time %><br>
+                <%= p.place %><br>
+            </div>
         <% end %>
     <% end %>
 </div>
