@@ -8,7 +8,13 @@
 
     <% @cabals.each do |c| %>
         <%= link_to cabal_path(c) do %>
-            <div class="cabal"><div class="text-center"><%= c.name %></div></div>
+            <div class="cabal">
+              <div class="text-center">
+                <%= c.name %><br>
+                <%= c.activity_date %><br>
+                <p class="cabal-members">members: <%= c.members_summary %><p>
+              </div>
+            </div>
         <% end %>
     <% end %>
     <!--
