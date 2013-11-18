@@ -9,6 +9,10 @@ var updateAgendaArray = function(id, time, place){
   addPinToMap(id, time, place);
 }
 
+var clearAgendaArray = function(){
+  agenda_info = new Array();
+}
+
 var addPinToMap = function(id, time, place){
   console.log("updating map");
   add_pin(id, place, time);

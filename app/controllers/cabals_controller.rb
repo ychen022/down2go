@@ -1,5 +1,6 @@
 class CabalsController < ApplicationController
 	before_action :authenticate_user!
+	before_action :check_cabal_permission, only: [:show, :add_member, :sync]
 	before_action :set_cabal, only: [:show, :add_member, :sync]
 	before_action :init_message, only: [:show]
 	
@@ -18,7 +19,7 @@ class CabalsController < ApplicationController
 	
 	# Attempt to create the cabal with provided info.
 	def create
-		@cabal = Cabal.create_new_from_params(current_user,params)
+		@cabal = Cabal.create_new_from_params(current_user,cabal_params)
 		if @cabal.nil?
 			flash.now[:alert] = "Failed to create cabal. Please check your details."
 			render :new
@@ -62,13 +63,27 @@ class CabalsController < ApplicationController
 	end
 	
 	private
-		# Set the cabal the user is currently working on.
+		# Set the cabal the user is currently working on by id.
 		def set_cabal
 			@cabal=Cabal.find_by_id(params[:id])
 		end
 		
+		# Never trust parameters from the scary internet, only allow the white list through.
+    def cabal_params
+      params.permit(:name, :date, :members)
+    end
+		
 		# Set a blank message to start the chat 
 		def init_message
 			@message = Message.new(user_id: current_user.id, cabal_id: params[:id])
+		end
+		
+		# Check if the current user has the permission to access the  
+		# specified cabal. Redirects to the cabal listing if violated.
+		def check_cabal_permission
+			if !current_user.cabals.include?(Cabal.find_by_id(params[:id]))
+        flash[:error] = 'You do not have the right permission to access this group!'
+        redirect_to(root_url) 
+      end
 		end
 end
