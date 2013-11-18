@@ -16,5 +16,23 @@ $(function(){
     var time = $time_field_raw.val() + " " + $(this).val();
     $time_field.val(time);
   });
+
+  $('#gochat').click(function(){
+    var $chat_area = $('#chat_area');
+    if($chat_area.css("display") == "none"){
+      $chat_area.css("display", "block");
+    } else {
+      $chat_area.css("display", "none");
+    }
+  });
+
+  $('#gomembers').click(function(){
+    var $member_area = $('#member_area');
+    if($member_area.css("display") == "none"){
+      $member_area.css("display", "block");
+    } else {
+      $member_area.css("display", "none");
+    }
+  });
   
 });
