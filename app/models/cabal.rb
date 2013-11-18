@@ -3,6 +3,8 @@ class Cabal < ActiveRecord::Base
 	has_many :messages
 	has_many :pinpoints
 	
+	validates_presence_of :activity_date
+	
 	# Creates a new cabal from the parameters and associates cabals and users
 	# TODO use errors properly
 	def self.create_new_from_params(user,params)
@@ -10,17 +12,21 @@ class Cabal < ActiveRecord::Base
 		date=params[:date]
 		membersRaw=params[:members]
 		members=membersRaw.split(/\s*,\s*/)
-		cabal=user.cabals.create(cabal_name:name, activity_date:date)
+		cabal=user.cabals.new(cabal_name:name, activity_date:date)
+		if !cabal.save
+			return nil
+		end
+		cabal.users<<user
 		members.each do |m|
 			iu=User.find_by_username(m)
 			if !iu.nil?
 				if cabal.users.include?(iu)
-					cabal.errors.add(:username, "User already in cabal")
+					cabal.errors.add(:username, "User "+m+" already in cabal. ")
 				else
 					cabal.users<<iu
 				end
 			else
-				cabal.errors.add(:username, "User not found")
+				cabal.errors.add(:username, "User "+m+" not found. ")
 			end
 		end
 		return cabal
@@ -31,7 +37,7 @@ class Cabal < ActiveRecord::Base
 	def add_member(user)
 		u=User.find_by_username(user)
 		if u.nil?
-			self.errors.add(:username, "User does not exist")
+			self.errors.add(:username, "User "+user+" does not exist")
 			return 0
 		else
 			if !self.users.include?(u)

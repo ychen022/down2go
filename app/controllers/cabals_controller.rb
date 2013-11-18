@@ -16,7 +16,18 @@ class CabalsController < ApplicationController
 	
 	def create
 		@cabal = Cabal.create_new_from_params(current_user,params)
-		redirect_to cabal_path(@cabal)
+		if @cabal.nil?
+			flash.now[:alert] = "Failed to create cabal. Please check your details."
+			render :new
+		else
+			flash[:alert] = "Cabal created. "
+			if @cabal.errors.any?
+				@cabal.errors[:username].each do |e|
+					flash[:alert] += e
+				end
+			end
+			redirect_to cabal_path(@cabal)
+		end
 	end
 	
 	def show
@@ -28,11 +39,11 @@ class CabalsController < ApplicationController
 	def add_member
 		result=@cabal.add_member(params[:username])
 		if result==0
-			flash[:alert] = "User does not exist"
+			flash.now[:alert] = "User does not exist. "
 		elsif result==-1
-			flash[:alert] = "User already in cabal"
+			flash.now[:alert] = "User already in cabal. "
 		else
-			flash[:notice] = "Successfully added user to cabal"
+			flash.now[:notice] = "Successfully added user to cabal. "
 		end
 		redirect_to cabal_path(@cabal)
 	end
