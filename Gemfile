@@ -12,6 +12,7 @@ gem 'pusher'
 # add observer
 gem 'rails-observers'
 
+
 group :development, :test do
     gem 'sqlite3'
 end

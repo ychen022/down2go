@@ -2,7 +2,9 @@ var agenda_info=new Array();
 var pins={};
 var geocoder;
 var map;
-$(function(){
+
+var ready;
+ready = function() {
   $(".pinpoint-time").change(function(){
     var $time_field = $(".pinpoint-time-hidden");
     var $time_field_am = $(".pinpoint-time-am");
@@ -34,5 +36,8 @@ $(function(){
       $member_area.css("display", "none");
     }
   });
-  
-});
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
+
