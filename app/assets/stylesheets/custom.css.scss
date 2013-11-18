@@ -72,7 +72,7 @@
     background-color: #000000;
     margin: 30px;
     display:inline-block;
-    background-image: url("mapbg.png") ;
+    background-image: url(image_path("mapbg.png"));
     float:left;
 
     -webkit-transition: all 0.5s ease;
