@@ -1,9 +1,34 @@
-<%= form_tag("/newcabal", method: "post") do %>
-  <%= label_tag(:name, "Cabal name:") %>
-  <%= text_field_tag(:name) %>
-  <%= label_tag(:date, "Activity date:") %>
-  <%= date_field_tag(:date) %>
-  <%= label_tag(:members, "Users you want to invite: (separated by commas)") %>
-  <%= text_area_tag(:members) %>
-  <%= submit_tag("Create") %>
-<% end %>
+<div class="container">
+  <% content_for :head do %>
+      <link href='http://fonts.googleapis.com/css?family=Raleway:200' rel='stylesheet' type='text/css'>
+  <% end %>
+
+  <div class="headerText">
+      <h2>Create a new cabal</h2>
+  </div>
+  <hr class="headerText">
+  <%= form_tag("/newcabal", method: "post", id: "new_cabal_form") do %>
+    <div class="control-group">
+    <%= label_tag(:name, "Cabal name") %>
+      <div class="controls">
+      <%= text_field_tag(:name) %>
+      </div>
+    </div>
+    <div class="control-group">
+    <%= label_tag(:date, "Activity date") %>
+      <div class="controls">
+      <%= date_field_tag(:date) %>
+      </div>
+    </div>
+    <div class="control-group">
+    <%= label_tag(:members, "Users you want to invite (separated by commas)") %>
+      <div class="controls">
+      <%= text_area_tag(:members) %>
+      </div>
+    </div>
+    <br />
+    <div class="submit_area">
+      <%= submit_tag("Create") %>
+    </div>
+  <% end %>
+</div>
