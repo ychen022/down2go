@@ -1,6 +1,7 @@
 class PinpointsController < ApplicationController
   before_action :set_pinpoint, only: [:destroy]
 	
+	# Create a pinpoint from the parameters received (place, time, cabal id)
   def create 
     @pinpoint = Pinpoint.create(pinpoint_params)
     check_pinpoint_cabal
@@ -13,6 +14,7 @@ class PinpointsController < ApplicationController
     end
   end
 	
+	# Remove the specified pinpoint by id
 	def destroy
 		respond_to do |format|
 			format.js

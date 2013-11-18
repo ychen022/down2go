@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
 	#before_action :authenticate_user!
 
+	# Create a message from the parameters received (content and cabal id).
   def create
     @message = current_user.messages.build(message_params)
     check_message_cabal

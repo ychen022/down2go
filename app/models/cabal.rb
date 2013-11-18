@@ -5,8 +5,9 @@ class Cabal < ActiveRecord::Base
 	
 	validates_presence_of :activity_date
 	
-	# Creates a new cabal from the parameters and associates cabals and users
-	# TODO use errors properly
+	# Creates a new cabal from the parameters and associates cabals and users.
+	# If there are non-existent users or duplicate users in the initial list of users
+	# in the parameters, the cabal will still be created but error alert will be displayed.
 	def self.create_new_from_params(user,params)
 		name=params[:name]
 		date=params[:date]
@@ -32,8 +33,9 @@ class Cabal < ActiveRecord::Base
 		return cabal
 	end
 	
-	# Take a username as an input
-	# Returns 0 for nonexistant user, 1 for success, -1 for user already in cabal
+	# Add a member to the cabal.
+	# Take a username as an input.
+	# Returns 0 for nonexistant user, 1 for success, -1 for user already in cabal.
 	def add_member(user)
 		u=User.find_by_username(user)
 		if u.nil?
@@ -49,6 +51,7 @@ class Cabal < ActiveRecord::Base
 		end
 	end
 	
+	# Return the name string of the cabal if it's not empty, or "nameless cabal" if it is.
 	def name
 		if self.cabal_name==""
 			return "Nameless Cabal"
@@ -57,6 +60,8 @@ class Cabal < ActiveRecord::Base
 		end
 	end
 	
+	# Return a summary string of the users in the group. The summary contains the username of
+	# up to 3 users and the number of other users if there are more.
 	def members_summary
 		output=""
 		msize = [2, self.users.size-1].min
