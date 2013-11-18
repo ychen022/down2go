@@ -98,7 +98,9 @@
 }
 
 #pinpoints_info {
+    height: 50%;
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 #chat_area{
