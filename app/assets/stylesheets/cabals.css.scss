@@ -2,7 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#cabal_container{position:relative}
+#cabal_container{
+}
+
 #map_area{
   width:600px;
   height:600px;
@@ -19,9 +21,11 @@
 }
 
 #agenda_area{width:300px;height:600px;border:solid 1px black; position:absolute; right: 150px; top: 0px;}
+
 #chat_area
 {width:400px;
 height:500px;
 border:solid 1px black;
 padding: 20px;}
+
 #member_area{width:200px;height:600px;border:solid 1px black; position: absolute; right: 30px; top: 0px;}

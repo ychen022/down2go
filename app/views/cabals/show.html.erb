@@ -1,20 +1,20 @@
 <script>
-  $(function(){
-    var pusher = new Pusher('<%= Pusher.key %>'); 
-    var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
-      }
-    };
-    channel.bind('chat', function(data) {
-      $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+    $(function(){
+        var pusher = new Pusher('<%= Pusher.key %>'); 
+        var channel = pusher.subscribe('cabal-' + '<%= @cabal.id %>');
+        Pusher.log = function(message) {
+            if (window.console && window.console.log) {
+                window.console.log(message);
+            }
+        };
+        channel.bind('chat', function(data) {
+            $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+        });
+        $.ajax({
+            url:'/cabals/'+<%=@cabal.id%>+'/sync', 
+            type: "get"
+        })
     });
-    $.ajax({
-      url:'/cabals/'+<%=@cabal.id%>+'/sync', 
-      type: "get"
-    })
-  });
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbJy4NtXEczRG6LDpXbveqf_TU_qZrDs0&sensor=false">
 </script>
@@ -23,131 +23,75 @@
     var image = '<%= image_path("pin.png") %>';
 
     var initialize=function() {
-      geocoder = new google.maps.Geocoder();
-      var latlng = new google.maps.LatLng(42.3581, -71.063);
-      var mapOptions = {
-        zoom: 12,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-      <% @pinpoints.each do |p| %>
-        var place_id = '<%= p.id %>';
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(42.3581, -71.063);
+        var mapOptions = {
+zoom: 12,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        <% @pinpoints.each do |p| %>
+                var place_id = '<%= p.id %>';
         var place_name = '<%= p.place %>';
         var place_time = '<%= p.time %>';
         add_pin(place_name, place_time);
-      <% end %>
-      console.log("Map initialized");
+    <% end %>
+        console.log("Map initialized");
     }
 
-    var add_pin=function(id, place, time) {
-      console.log("Adding pin");
-      geocoder.geocode( { 'address': place}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var marker = new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location,
-              icon: image,
-              title: place
-          });
-          pins[id] =  marker;
-        }
-      });
-      console.log("Pin added");
-    }
+var add_pin=function(id, place, time) {
+    console.log("Adding pin");
+    geocoder.geocode( { 'address': place}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+            var marker = new google.maps.Marker({
+map: map,
+position: results[0].geometry.location,
+icon: image,
+title: place
+});
+            pins[id] =  marker;
+            }
+            });
+console.log("Pin added");
+}
 
-    
 
-  $(function(){
-    initialize();
-    $('#check-on-map').click(function(){
-      var address = document.getElementById('address').value;
-      geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location
-          });
-        } else {
-          alert('Geocode was not successful for the following reason: ' + status);
-        }
-      });
-    });
-  });
-</script>
 
-<div id="cabal_container">
-  <div id="map_area">
-    <div id="map-canvas">
-    </div>
-  </div>
-  <div id="agenda_area">
-    <%= form_for(@pinpoint, remote: true) do |f| %>
-      Enter your place here:
-      <%= f.text_field(:place, :id => "address") %><br>
-      <button type="button" id="check-on-map">check on Map!</button><br>
-      <select class="pinpoint-time">
-        <option value="1:00">1:00</option>
-        <option value="2:00">2:00</option>
-        <option value="3:00">3:00</option>
-        <option value="4:00">4:00</option>
-        <option value="5:00">5:00</option>
-        <option value="6:00">6:00</option>
-        <option value="7:00">7:00</option>
-        <option value="8:00">8:00</option>
-        <option value="9:00">9:00</option>
-        <option value="10:00">10:00</option>
-        <option value="11:00">11:00</option>
-        <option value="12:00" selected>12:00</option>
-      </select>
-      <select class="pinpoint-time-am">
-        <option value='' disabled selected style='display:none;'>Please Choose</option>
-        <option value="AM">AM</option>
-        <option value="PM" selected>PM</option>
-      </select>
-      <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
-      <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
-      <%= f.submit "Add to agenda" %>
-    <% end %>
+$(function(){
+        initialize();
+        $('#check-on-map').click(function(){
+            var address = document.getElementById('address').value;
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+map: map,
+position: results[0].geometry.location
+});
+                } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+                }
+                });
+            });
+        });
+    </script>
 
-    <div id="pinpoints_info">
-    <% if false %>
-    <% @pinpoints.each do |p| %>
-      Info:<br>
-      <%= p.time %><br>
-      <%= p.place %><br>
-    <% end %>
-    <% end %>
-    </div>
-  </div>
-  
-  <div id="chat_area">
-    <div class="chat-dialog">
-    </div>
-    <%= form_for(@message, remote: true) do |f| %>
-      <%= f.text_area(:content, :class => 'chat-textarea', :placeholder => 'Enter your message here!') %> <br>
-      <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
-      <%= f.submit "Enter", class: "btn  btn-primary" %>
-    <% end %>
-  </div>
-  <div id="member_area">Members<br />
-    <table id="member_table">
-      <tr class="member_table_heading">
-        <th>Member Name</th>
-      </tr>
-      <% @cabal.users.each do |u| %>
-        <tr class="member_table_row">
-          <td><%= u.username %>
-        </tr>
-      <% end %>
-    </table>
-    <br />
-    <br />
-    <%= form_tag(add_cabal_member_path(@cabal), method: "post", remote: false) do %>
-      <%= label_tag(:username, "User to invite") %>
-      <%= text_field_tag(:username) %>
-      <%= submit_tag("Invite to cabal") %>
-    <% end %>
-  </div>
-</div>
+    <div id="cabal_container">
+        
+        <div id="map_area">
+            <div id="map-canvas">
+            </div>
+        </div>
+
+        <div id="agenda_area">
+            <%= render "agenda" %>
+        </div>
+
+        <div id="chat_area">
+            <%= render "chat" %>
+        </div>
+
+        <div id="member_area">Members<br />
+            <%= render "members" %>
+        </div>
