@@ -56,7 +56,8 @@ var add_pin=function(id, place, time) {
                 icon: image,
                 title: place
             });
-            pins[id] =  marker;
+            ppoints.add(id, marker);
+            //pins[id] =  marker;
         }
     });
     console.log("Pin added");

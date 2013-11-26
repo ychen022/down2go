@@ -1,8 +1,43 @@
 // TODO change those global variables to more secure implementations.
-var agenda_info=new Array();
-var pins={};
+var agenda_info;
+var ppoints;
 var geocoder;
 var map;
+
+Pinpoints = function(){
+  var pins = {};
+  return {
+    all: function() {return pins;},
+    get: function(id) {return pins[id];},
+    add: function(id, marker) {pins[id]=marker;},
+    remove: function(id) {
+      if (pins[id]!=null){
+        pins[id].setMap(null);
+        delete pins[id];
+      }
+    }
+  };
+}
+
+AgendaInfo = function(){
+  var agenda_info=new Array();
+  return {
+    all: function() {return agenda_info;},
+    get: function(index) {return agenda_info[index];},
+    add: function(item) {agenda_info.push(item);},
+    remove: function(index) {agenda_info.splice(index, 1);},
+    sort: function() {
+      agenda_info.sort(function(a,b){
+        var dateA=new Date(a.time);
+        var dateB=new Date(b.time);
+        return dateA-dateB;
+      });
+    },
+    clear: function() {agenda_info = new Array();},
+    length: function() {return agenda_info.length;}
+  };
+}
+    
 
 var ready;
 ready = function() {
@@ -43,6 +78,15 @@ ready = function() {
   });
 };
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
+$(document).ready(function(){
+  ready;
+  ppoints = Pinpoints();
+  agenda_info = AgendaInfo();
+});
+$(document).on('page:load', function(){
+  ready;
+  ppoints = Pinpoints();
+  agenda_info = AgendaInfo();
+});
+  
 
