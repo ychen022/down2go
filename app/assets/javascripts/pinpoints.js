@@ -1,5 +1,6 @@
 // Insert the new pinpoint data into the agenda array.
 var updateAgendaArray = function(id, time, place){
+  console.log(time);
   agenda_info.add({'id': id, 'time':time, 'place':place});
   agenda_info.sort();
   

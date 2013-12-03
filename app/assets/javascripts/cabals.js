@@ -28,9 +28,10 @@ AgendaInfo = function(){
     remove: function(index) {agenda_info.splice(index, 1);},
     sort: function() {
       agenda_info.sort(function(a,b){
-        var dateA=new Date(a.time);
-        var dateB=new Date(b.time);
-        return dateA-dateB;
+        //var dateA=new Date(a.time);
+        //var dateB=new Date(b.time);
+        //return dateA-dateB;
+        return a.time-b.time;
       });
     },
     clear: function() {agenda_info = new Array();},
@@ -79,12 +80,12 @@ ready = function() {
 };
 
 $(document).ready(function(){
-  ready;
+  ready();
   ppoints = Pinpoints();
   agenda_info = AgendaInfo();
 });
 $(document).on('page:load', function(){
-  ready;
+  ready();
   ppoints = Pinpoints();
   agenda_info = AgendaInfo();
 });
