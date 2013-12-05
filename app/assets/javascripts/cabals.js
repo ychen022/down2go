@@ -81,6 +81,13 @@ ready = function() {
       $member_area.css("display", "none");
     }
   });
+  
+  $('#message_content').keypress(function(evt){
+    var charCode = (evt.which) ? evt.which : window.event.keyCode; 
+		if (charCode == 13){ 
+      $('#new_message').submit();
+    } 
+  });
 };
 
 $(document).ready(function(){
