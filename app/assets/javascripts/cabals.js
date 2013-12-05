@@ -28,10 +28,14 @@ AgendaInfo = function(){
     remove: function(index) {agenda_info.splice(index, 1);},
     sort: function() {
       agenda_info.sort(function(a,b){
+        var ah = parseInt(a.time.substring(0,2));
+        var bh = parseInt(b.time.substring(0,2));
+        ah = (a.time.substring(6,8)==="PM")?ah+12:ah;
+        bh = (b.time.substring(6,8)==="PM")?bh+12:bh;
+        return ah*60+parseInt(a.time.substring(3,5))-bh*60-parseInt(b.time.substring(3,5));
         //var dateA=new Date(a.time);
         //var dateB=new Date(b.time);
         //return dateA-dateB;
-        return a.time-b.time;
       });
     },
     clear: function() {agenda_info = new Array();},
