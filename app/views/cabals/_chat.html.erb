@@ -1,9 +1,12 @@
 <div class="chat-dialog">
 </div>
+
+<div class="chat-enter">
 <%= form_for(@message, remote: true, :html => {:class => "form-inline"}  ) do |f| %>
         <%= f.text_area :content, class: 'chat-textarea form-control', placeholder: 'Enter your message here!' %> 
 
     <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
     <%= f.submit "Enter", class: "submitBtn pull-right" %>
 <% end %>
+</div>
 
