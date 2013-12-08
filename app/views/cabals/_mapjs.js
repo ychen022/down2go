@@ -93,46 +93,49 @@ var get_direction=function(start, end, car){
       destination:end.place,
       travelMode:google.maps.TravelMode.WALKING
     };
-    directionsService.route(transit_request, function(result, status) {
-      console.log("transit: "+status);
-      var tResult;
-      if (status == google.maps.DirectionsStatus.OK) {
-        //directionsDisplay.setDirections(result);
-        tResult = result;
-      }
-      directionsService.route(walk_request, function(wresult, wstatus) {
-        console.log("walk: "+wstatus);
-        if (wstatus == google.maps.DirectionsStatus.OK) {
-          //directionsDisplay.setDirections(result);
-          var dResult;
-          var leave_at;
-          //console.log(tResult);
-          //console.log(tResult.routes[0].legs[0].departure_time);
-          if (!tResult || !tResult.routes[0].legs[0].departure_time){
-            console.log("ENTRY A");
-            dResult = wresult;
-            leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
-            update_agenda_with_direction(start, end, dResult, leave_at);
-          }else if ((time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value)>tResult.routes[0].legs[0].departure_time.value){
-            console.log("ENTRY B "+time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value);
-            dResult = wresult;
-            leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
-            update_agenda_with_direction(start, end, dResult, leave_at);
-          }else{
-            console.log("ENTRY C "+tResult.routes[0].legs[0].departure_time.value);
-            dResult = tResult;
-            leave_at = tResult.routes[0].legs[0].departure_time.value.getTime()/1000;
-            update_agenda_with_direction(start, end, dResult, leave_at);
-          }
+    // Get the walking request result first, then check the duration of the trip.
+    // If the trip is over [30 mins] by walking, attempt to check for transit.
+    directionsService.route(walk_request, function(wresult, wstatus) {
+      console.log("walk: "+wstatus);
+      var leave_at;
+      if (wstatus == google.maps.DirectionsStatus.OK) {
+        if (wresult.routes[0].legs[0].duration.value>1800){
+          directionsService.route(transit_request, function(result, status) {
+            console.log("transit: "+status);
+            var tResult;
+            if (status == google.maps.DirectionsStatus.OK) {
+            //directionsDisplay.setDirections(result);
+              tResult = result;
+              if (!tResult || !tResult.routes[0].legs[0].departure_time){
+                console.log("ENTRY A");
+                dResult = wresult;
+                leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
+                update_agenda_with_direction(start, end, dResult, leave_at, "walking");
+              }else if ((time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value)>tResult.routes[0].legs[0].departure_time.value){
+                console.log("ENTRY B "+time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value);
+                dResult = wresult;
+                leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
+                update_agenda_with_direction(start, end, dResult, leave_at, "walking");
+              }else{
+                console.log("ENTRY C "+tResult.routes[0].legs[0].departure_time.value);
+                dResult = tResult;
+                leave_at = tResult.routes[0].legs[0].departure_time.value.getTime()/1000;
+                update_agenda_with_direction(start, end, dResult, leave_at, "public transit");
+              }
+            }
+          });
+        }else{
+          console.log("ENTRY D");
+          dResult = wresult;
+          leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
+          update_agenda_with_direction(start, end, dResult, leave_at, "walking");
         }
-      });
+      }
     });
-    
   }
-  
 }
 
-var update_agenda_with_direction = function(start, end, dResult, leave_at){
+var update_agenda_with_direction = function(start, end, dResult, leave_at, method){
   console.log("Updating agenda: "+start.id);
   var vDiv = $('#'+start.id);
   if (vDiv.children('div.route_info')!=0){
@@ -142,7 +145,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at){
     // Display error message
     vDiv.append('<div class="route_info">\
     You will not make it to the next agenda item in time. <br />\
-    The travel time required is '+dResult.routes[0].legs[0].duration.text+'.\
+    The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
     </div>');
     console.log("agenda error appended");
   }else{
@@ -150,7 +153,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at){
     var nd = new Date(leave_at*1000);
     vDiv.append('<div class="route_info">\
     You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
-    The travel time required is '+dResult.routes[0].legs[0].duration.text+'.\
+    The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
     </div>');
     console.log("agenda notice appended");
   }
@@ -174,6 +177,24 @@ var time_to_utc = function(tString){
   return ((hr-19)*60+parseInt(tString.substring(3,5)))*60+dayTime.getTime()/1000;
 }
 
+// Experimental
+var direction_with_timeout = function(start, end, car) {
+  setTimeout(function(){
+    get_direction(start, end, car); 
+  }, 200);
+}
+
+// Experimental
+var direction_loop_delayed = function(aInfo, i, car){
+  setTimeout(function(){
+    get_direction(aInfo[i], aInfo[i+1], car);
+    if (i<aInfo.length-2){
+      direction_loop_delayed(aInfo, i+1, car);
+    }
+  }, 50);
+}
+    
+
 $(function(){
     initialize();
     $('#check-on-map').click(function(){
@@ -194,9 +215,10 @@ $(function(){
     $('#check_agenda').click(function(){
       var car=$('#has_car').prop('checked');
       var aInfo = agenda_info.all();
-      for (var i=0;i<aInfo.length-1;i++){
-        get_direction(aInfo[i], aInfo[i+1], car);
-      }
+      direction_loop_delayed(aInfo, 0, car);
+      //for (var i=0;i<aInfo.length-1;i++){
+      //  get_direction(aInfo[i], aInfo[i+1], car);
+      //}
     });
       
 });
