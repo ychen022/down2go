@@ -12,7 +12,11 @@ class Cabal < ActiveRecord::Base
 		name=params[:name]
 		date=params[:date]
 		membersRaw=params[:members]
-		members=membersRaw.split(/\s*,\s*/)
+		if membersRaw.nil?
+			members = []
+		else
+			members=membersRaw.split(/\s*,\s*/)
+		end
 		cabal=user.cabals.new(cabal_name:name, activity_date:date)
 		if !cabal.save
 			return nil

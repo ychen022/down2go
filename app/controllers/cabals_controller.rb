@@ -41,27 +41,22 @@ class CabalsController < ApplicationController
     end
 
     # Add a member to the cabal. 
-    # TODO change to ajax
     def add_member
-        # result=@cabal.add_member(params[:username])
-        # if result==0
-        #     #flash[:alert] = "User does not exist. "
-        #     notice = "User does not exist. "
-        # elsif result==-1
-        #     #flash[:alert] = "User already in cabal. "
-        #     notice = "User already in cabal. "
-        # else
-        #     #flash[:notice] = "Successfully added user to cabal. "
-        #     notice = "Successfully added user to cabal. "
-        # end
-        # notice = ""
-        #json_response = { :notice => notice}
-        respond_to do |format|
-            format.html {redirect_to cabal_path(@cabal)}
-            format.js {}
-            #format.json {render :json => json_response}
+        result=@cabal.add_member(params[:username])
+        member = ""
+        if result==0
+            notice = "User does not exist. "
+        elsif result==-1
+            notice = "User already in cabal. "
+        else
+            notice = "Successfully added user to cabal. "
+            member = ", " + params[:username]
         end
-        #redirect_to cabal_path(@cabal)
+        @response = notice
+        @member = member
+        respond_to do |format|
+            format.js {}
+        end
     end
 
     # Render the existing pinpoints on the cabal page.
