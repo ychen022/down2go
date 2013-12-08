@@ -193,7 +193,15 @@ var direction_loop_delayed = function(aInfo, i, car){
     }
   }, 50);
 }
-    
+  
+var direction_update_all = function(){
+  var car=$('#has_car').prop('checked');
+  var aInfo = agenda_info.all();
+  direction_loop_delayed(aInfo, 0, car);
+  //for (var i=0;i<aInfo.length-1;i++){
+  //  get_direction(aInfo[i], aInfo[i+1], car);
+  //}
+}
 
 $(function(){
     initialize();
@@ -213,12 +221,7 @@ $(function(){
     });
     
     $('#check_agenda').click(function(){
-      var car=$('#has_car').prop('checked');
-      var aInfo = agenda_info.all();
-      direction_loop_delayed(aInfo, 0, car);
-      //for (var i=0;i<aInfo.length-1;i++){
-      //  get_direction(aInfo[i], aInfo[i+1], car);
-      //}
+      direction_update_all();
     });
       
 });
