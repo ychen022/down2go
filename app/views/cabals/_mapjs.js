@@ -201,6 +201,7 @@ var direction_with_timeout = function(start, end, car) {
 
 // Experimental
 var direction_loop_delayed = function(aInfo, i, max, car){
+  if (i>=max) return;
   setTimeout(function(){
     get_direction(aInfo[i], aInfo[i+1], car);
     if (i<max-1){
