@@ -50,7 +50,7 @@
 }
 
 
-.action-buttons{
+#action-buttons{
     position:absolute;
     top: 90px;
     right: 250px;
@@ -61,17 +61,24 @@
     #chat_area{
     }
 
+    #action-buttons{
+        right: auto;
+        left:520px;
+        width:240px
+    }
+
+
     #map_area{
         width:1000px;
     }
 
     #member_area{
-        right:none;
+        right:auto;
         left: 550px;
     }
 
     #agenda_area{
-        right:none;
+        right:auto;
         left:800px;
     }
 }
@@ -79,7 +86,7 @@
 @media (max-height: 600px) {
     #chat_area{
         bottom:none;
-        top: 510px;
+        top: 490px;
     }
 
     #map_area{
