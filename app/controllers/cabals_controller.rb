@@ -43,14 +43,17 @@ class CabalsController < ApplicationController
     # Add a member to the cabal. 
     def add_member
         result=@cabal.add_member(params[:username])
+        member = ""
         if result==0
             notice = "User does not exist. "
         elsif result==-1
             notice = "User already in cabal. "
         else
             notice = "Successfully added user to cabal. "
+            member = ", " + params[:username]
         end
         @response = notice
+        @member = member
         respond_to do |format|
             format.js {}
         end

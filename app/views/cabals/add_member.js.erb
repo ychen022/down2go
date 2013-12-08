@@ -1,1 +1,2 @@
-$("#addmembernotice").append('<p class="addmemberresponse"><%=escape_javascript(@response) %></p>')
+$("#memberslist").append('<%= escape_javascript(@member) %>')
+$("#addmembernotice").html('<p class="addmemberresponse"><%=escape_javascript(@response) %></p>')

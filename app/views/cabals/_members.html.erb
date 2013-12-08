@@ -1,5 +1,7 @@
-
-<%= @cabal.users.map { |user| user.username }.join(", ") %>
+<div id="memberslist">
+<strong>Members: </strong>
+<%= @cabal.users.map{|user|user.username}.join(", ")%>
+</div>
 
 <br />
 <br />
