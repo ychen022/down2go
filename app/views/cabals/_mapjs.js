@@ -58,8 +58,6 @@ var initialize=function() {
         console.log("Map initialized");
 }
 
-var infowindowopen;
-
 var add_pin=function(id, place, time, latitude, longitude) {
     console.log("Adding pin");
 
@@ -75,14 +73,13 @@ var add_pin=function(id, place, time, latitude, longitude) {
     contentNode.className = "infowindow_content";
     // Replace with desired string or dom element for the marker
     var nodeContent = document.createElement("p");
-    nodeContent.innerHTML = id+", "+place+", "+time;
+    nodeContent.innerHTML = place+", "+time;
     contentNode.appendChild(nodeContent);
+    var infowindow = new google.maps.InfoWindow({
+      content: contentNode
+    });
     google.maps.event.addListener(marker, 'click', function(){
-      if (infowindowopen) infowindowopen.close();
-      infowindowopen = new google.maps.InfoWindow({
-        content: contentNode
-      });
-      infowindowopen.open(map, marker);
+      infowindow.open(map, marker);
     });
     ppoints.add(id, marker);
     //pins[id] =  marker;
