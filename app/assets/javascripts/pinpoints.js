@@ -7,6 +7,24 @@ var updateAgendaArray = function(id, time, place){
   addPinToMap(id, time, place);
 }
 
+var updateAgendaWithDirection = function(id, time, place){
+  updateAgendaArray(id, time, place);
+  var aInfo = agenda_info.all();
+  var car=$('#has_car').prop('checked');
+  for (var i=0;i<aInfo.length-1;i++){
+    if (aInfo[i].id===id){
+      if (i===0){
+        direction_loop_delayed(aInfo, i, i+1, car);
+      }else if (i===aInfo.length-2){
+        direction_loop_delayed(aInfo, i-1, i, car);
+      }else{
+        direction_loop_delayed(aInfo, i-1, i+1, car);
+      }
+      break;
+    }
+  }
+}
+
 // Clear the agenda array.
 var clearAgendaArray = function(){
   agenda_info.clear();
