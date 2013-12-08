@@ -1,0 +1,25 @@
+one: 
+  user_id: 1
+  cabal_id: 2
+two:
+  user_id: 1
+  cabal_id: 3
+three:
+  user_id: 2
+  cabal_id: 3
+four:
+  user_id: 1
+  cabal_id: 4
+five:
+  user_id: 2
+  cabal_id: 4
+six:
+  user_id: 3
+  cabal_id: 4
+seven:
+  user_id: 4
+  cabal_id: 4
+eight:
+  user_id: 1
+  cabal_id: 5
+  

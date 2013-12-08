@@ -201,6 +201,7 @@ var direction_with_timeout = function(start, end, car) {
 
 // Experimental
 var direction_loop_delayed = function(aInfo, i, max, car){
+  if (i>=max) return;
   setTimeout(function(){
     get_direction(aInfo[i], aInfo[i+1], car);
     if (i<max-1){
@@ -221,6 +222,7 @@ var direction_update_all = function(){
 $(function(){
     initialize();
     $('#check-on-map').click(function(){
+        remnant_markers.clear();
         var address = document.getElementById('address').value;
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -229,6 +231,7 @@ $(function(){
                     map: map,
                     position: results[0].geometry.location
                 });
+                remnant_markers.add_marker(marker);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
