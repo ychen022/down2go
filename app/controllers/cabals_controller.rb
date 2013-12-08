@@ -43,21 +43,23 @@ class CabalsController < ApplicationController
     # Add a member to the cabal. 
     # TODO change to ajax
     def add_member
-        result=@cabal.add_member(params[:username])
-        if result==0
-            #flash[:alert] = "User does not exist. "
-            notice = "User does not exist. "
-        elsif result==-1
-            #flash[:alert] = "User already in cabal. "
-            notice = "User already in cabal. "
-        else
-            #flash[:notice] = "Successfully added user to cabal. "
-            notice = "Successfully added user to cabal. "
-        end
-        json_response = { :notice => notice}
+        # result=@cabal.add_member(params[:username])
+        # if result==0
+        #     #flash[:alert] = "User does not exist. "
+        #     notice = "User does not exist. "
+        # elsif result==-1
+        #     #flash[:alert] = "User already in cabal. "
+        #     notice = "User already in cabal. "
+        # else
+        #     #flash[:notice] = "Successfully added user to cabal. "
+        #     notice = "Successfully added user to cabal. "
+        # end
+        # notice = ""
+        #json_response = { :notice => notice}
         respond_to do |format|
-            format.js   {}
-            format.json {render :json => json_response}
+            format.html {redirect_to cabal_path(@cabal)}
+            format.js {}
+            #format.json {render :json => json_response}
         end
         #redirect_to cabal_path(@cabal)
     end
