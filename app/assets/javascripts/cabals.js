@@ -114,6 +114,7 @@ ready = function() {
   $('#message_content').keypress(function(evt){
     var charCode = (evt.which) ? evt.which : window.event.keyCode; 
 		if (charCode == 13){ 
+      event.preventDefault();
       $('#new_message').submit();
     } 
   });

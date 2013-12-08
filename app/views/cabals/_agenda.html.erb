@@ -1,12 +1,19 @@
+<p class="agendalabel">Enter your place here:</p>
+
+<input class="inputWrap" id="address" placeholder="MIT, Cambridge" type="text">
+
+<button type="button" id="check-on-map" class="agendamapbtn">find it on the map!</button><br>
+
+<hr>
+
 <%= form_for(@pinpoint, remote: true) do |f| %>
     <div class="new-pinpoint-error"></div>
 
-    <p class="agendalabel">Enter your place here:</p>
+    Short Name for your place:
+    <%= f.text_field(:place, class: "inputWrap") %><br>
 
-    <%= f.text_field(:place, :id => "address", placeholder: "MIT, Cambridge", class: "inputWrap") %><br>
-
-    <button type="button" id="check-on-map" class="agendamapbtn">find it on the map!</button><br>
-    <br><br>
+    <%= f.hidden_field :latitude, :value => "" %>
+    <%= f.hidden_field :longitude, :value => "" %>
 
     <select class="pinpoint-time timedropdown">
         <option value="1:00">1:00</option>

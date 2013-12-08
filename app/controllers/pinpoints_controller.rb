@@ -25,7 +25,7 @@ class PinpointsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def pinpoint_params
-      params.require(:pinpoint).permit(:place, :time, :cabal_id)
+      params.require(:pinpoint).permit(:place, :time, :cabal_id, :latitude, :longitude)
     end
 
 		# Check if the current user has the permission to create the pinpoint in the 
