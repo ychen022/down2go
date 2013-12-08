@@ -3,7 +3,11 @@
 
 <br />
 <br />
-<%= form_tag(add_cabal_member_path(@cabal), method: "post", remote: false) do %>
+
+<div id="addmembernotice">
+</div>
+
+<%= form_tag(add_cabal_member_path(@cabal), remote: true) do %>
     <%= label_tag(:username, "User to invite to cabal") %>
     <%= text_field_tag(:username, nil, :class => "span2" ) %>
     <%= submit_tag("invite", :class=> "submitBtn pull-right" ) %>

@@ -9,6 +9,9 @@ $(function(){
     };
     channel.bind('chat', function(data) {
         $('.chat-dialog').append(data.username + ': ' + data.content + '<br>');
+        $('#chat_area').css("display", "block");
+        var $dialog = $('.chat-dialog');
+        $dialog.scrollTop($dialog.prop('scrollHeight'));
     });
     channel.bind('pinpoint', function(data) {
         updateAgendaArray(data.id, data.time, data.place);
