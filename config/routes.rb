@@ -5,7 +5,7 @@ FinalProj::Application.routes.draw do
 	
 	get '/cabals', to: "cabals#index", as: "cabals"
 	get '/cabals/:id', to: "cabals#show", as: "cabal"
-	post '/cabals/:id/users', to: "cabals#add_member", as: "add_cabal_member"
+  post '/cabals/:id/users', to: "cabals#add_member", as: "add_cabal_member"
 	get '/cabals/:id/quit', to: "cabals#quit_cabal", as: "quit_cabal"
 	get '/newcabal', to: "cabals#new", as: "new_cabal"
 	post '/newcabal', to: "cabals#create", as: "create_cabal"
