@@ -1,9 +1,29 @@
 // TODO change those global variables to more secure implementations.
 var agenda_info;
 var ppoints;
+var remnant_markers;
 var geocoder;
 var map;
 var directionsService;
+
+Remnant_markers = function(){
+  var markers = [];
+
+  var that = {};
+  that.add_marker = function(marker){
+    markers.push(marker);
+  };
+
+  that.clear = function(){
+    utils.each(markers, function(marker) {
+      marker.setMap(null);
+    });
+    markers.length = 0;
+  };    
+
+  Object.freeze(that);
+  return that;
+}
 
 Pinpoints = function(){
   var pins = {};
@@ -102,11 +122,13 @@ ready = function() {
 $(document).ready(function(){
   ready();
   ppoints = Pinpoints();
+  remnant_markers = Remnant_markers();
   agenda_info = AgendaInfo();
 });
 $(document).on('page:load', function(){
   ready();
   ppoints = Pinpoints();
+  remnant_markers = Remnant_markers();
   agenda_info = AgendaInfo();
 });
   

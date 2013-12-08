@@ -221,6 +221,7 @@ var direction_update_all = function(){
 $(function(){
     initialize();
     $('#check-on-map').click(function(){
+        remnant_markers.clear();
         var address = document.getElementById('address').value;
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -229,6 +230,7 @@ $(function(){
                     map: map,
                     position: results[0].geometry.location
                 });
+                remnant_markers.add_marker(marker);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
