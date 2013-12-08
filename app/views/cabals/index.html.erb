@@ -5,7 +5,7 @@
 <% end %>
 
 <div id="cabals_area">
-    <div><%= link_to "create new", new_cabal_path, class:"createCabal" %></div>
+    <div><%= link_to "create new cabal", new_cabal_path, class:"createCabal" %></div>
 
     <% @cabals.each do |c| %>
         <%= link_to cabal_path(c) do %>
