@@ -12,11 +12,17 @@ $(function(){
     });
     channel.bind('pinpoint', function(data) {
         updateAgendaArray(data.id, data.time, data.place);
+        // Ideally the next line should be used that involves at most 2 direction api calls.
+        //updateAgendaWithDirection(data.id, data.time, data.place);
         rewriteAgenda();
+        // Subpar solution. May cause OVER_QUERY_LIMIT
+        setTimeout(direction_update_all, 20);
     });
     channel.bind('delete-pinpoint', function(data){
         removeAgendaItem(data.id);
         removePinFromMap(data.id);
+        // Subpar solution. May cause OVER_QUERY_LIMIT
+        setTimeout(direction_update_all, 20);
     });
     $.ajax({
         url:'/cabals/'+<%=@cabal.id%>+'/sync', 
@@ -106,7 +112,7 @@ var get_direction=function(start, end, car){
             if (status == google.maps.DirectionsStatus.OK) {
             //directionsDisplay.setDirections(result);
               tResult = result;
-              if (!tResult || !tResult.routes[0].legs[0].departure_time){
+              if (!tResult.routes[0].legs[0].departure_time){
                 console.log("ENTRY A");
                 dResult = wresult;
                 leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
@@ -122,10 +128,15 @@ var get_direction=function(start, end, car){
                 leave_at = tResult.routes[0].legs[0].departure_time.value.getTime()/1000;
                 update_agenda_with_direction(start, end, dResult, leave_at, "public transit");
               }
+            }else{
+              console.log("ENTRY E");
+              dResult = wresult;
+              leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
+              update_agenda_with_direction(start, end, dResult, leave_at, "walking");
             }
           });
         }else{
-          console.log("ENTRY D");
+          console.log("ENTRY F");
           dResult = wresult;
           leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
           update_agenda_with_direction(start, end, dResult, leave_at, "walking");
@@ -164,6 +175,7 @@ var time_difference = function(timea, timeb){
   return time_to_utc(timeb)-time_to_utc(timea);
 }
 
+// Converts a time string HH:MM AM/PM to the UTC time in seconds
 var time_to_utc = function(tString){
   var hr = parseInt(tString.substring(0,2));
   if ((tString.substring(6,8)==="PM") && (tString.substring(0,2)!="12")){
@@ -185,11 +197,11 @@ var direction_with_timeout = function(start, end, car) {
 }
 
 // Experimental
-var direction_loop_delayed = function(aInfo, i, car){
+var direction_loop_delayed = function(aInfo, i, max, car){
   setTimeout(function(){
     get_direction(aInfo[i], aInfo[i+1], car);
-    if (i<aInfo.length-2){
-      direction_loop_delayed(aInfo, i+1, car);
+    if (i<max-1){
+      direction_loop_delayed(aInfo, i+1, max, car);
     }
   }, 50);
 }
@@ -197,7 +209,7 @@ var direction_loop_delayed = function(aInfo, i, car){
 var direction_update_all = function(){
   var car=$('#has_car').prop('checked');
   var aInfo = agenda_info.all();
-  direction_loop_delayed(aInfo, 0, car);
+  direction_loop_delayed(aInfo, 0, aInfo.length-1, car);
   //for (var i=0;i<aInfo.length-1;i++){
   //  get_direction(aInfo[i], aInfo[i+1], car);
   //}
