@@ -31,6 +31,7 @@
 
     <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
     <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
+    <%= f.hidden_field :cabal_date, :class => 'cabal-date-hidden', :value => @cabal.activity_date %>
     <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
 <% end %>
 
@@ -39,6 +40,9 @@
 
 <div id="agenda_operations">
   <%= link_to "Quit Cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
-  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>
+  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %><br />
+  <input type="checkbox" id="has_car" value="car">Has car</input><br />
+  <button type="button" id="check_agenda">Check agenda time</button><br />
+  <div id="direction_results"></div>
 </div>
 
