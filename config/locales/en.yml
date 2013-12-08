@@ -21,3 +21,14 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        pinpoint:
+          attributes:
+            latitude:
+              format: "%{message}"
+              blank: "Please do a geo search first!"
+            longitude:
+              format: "%{message}"
+              blank: "Please do a geo search first!"

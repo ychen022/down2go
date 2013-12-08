@@ -221,21 +221,38 @@ var direction_update_all = function(){
 
 $(function(){
     initialize();
-    $('#check-on-map').click(function(){
-        remnant_markers.clear();
+
+    var check_on_map = function(){
+      remnant_markers.clear();
         var address = document.getElementById('address').value;
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
+                var loc = results[0].geometry.location;
+                map.setCenter(loc);
                 var marker = new google.maps.Marker({
                     map: map,
-                    position: results[0].geometry.location
+                    position: loc
                 });
                 remnant_markers.add_marker(marker);
+                $( "input[name='pinpoint[place]']" ).val(address);
+                $( "input[name='pinpoint[latitude]']" ).val(loc.pb);
+                $( "input[name='pinpoint[longitude]']" ).val(loc.qb);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
+      };
+
+    $('#address').keypress(function(evt){
+      var charCode = (evt.which) ? evt.which : window.event.keyCode; 
+        if (charCode == 13){ 
+          event.preventDefault();
+          check_on_map();
+        } 
+      });
+
+    $('#check-on-map').click(function(){
+      check_on_map();
     });
     
     $('#check_agenda').click(function(){

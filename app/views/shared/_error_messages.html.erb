@@ -4,9 +4,13 @@
       The form contains <%= pluralize(object.errors.count, "error") %>.
     </div>
     <ul>
-    <% object.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
+      <% object.errors.each_with_index do |msg, i| %>
+        <% if msg[0].to_s() == "latitude" %>
+          <li><%= msg[1] %></li>
+        <% elsif msg[0].to_s() != "longitude" %>
+          <li><%= msg[0] %> <%= msg[1] %></li>
+        <% end %>
+      <% end %>
     </ul>
   </div>
 <% end %>
