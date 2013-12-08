@@ -1,7 +1,7 @@
 class CabalsController < ApplicationController
 	before_action :authenticate_user!
-	before_action :check_cabal_permission, only: [:show, :add_member, :sync]
-	before_action :set_cabal, only: [:show, :add_member, :sync]
+	before_action :check_cabal_permission, only: [:show, :add_member, :sync, :quit_cabal]
+	before_action :set_cabal, only: [:show, :add_member, :sync, :quit_cabal]
 	before_action :init_message, only: [:show]
 	
 	# Show the list of cabals that the user is participating in.
@@ -60,6 +60,21 @@ class CabalsController < ApplicationController
 		respond_to do |format|
 			format.js
 		end
+	end
+	
+	# Removes the current user from the specified cabal through model method.
+	# May remove the cabal as well if it's empty.
+	def quit_cabal
+		result=@cabal.remove_member(current_user)
+		if result==0
+			flash[:alert] = "User does not exist. "
+		else
+			if result==-1
+				@cabal.destroy
+			end
+			flash[:notice] = "Successfully exited cabal. "
+		end
+		redirect_to root_url
 	end
 	
 	private

@@ -51,6 +51,25 @@ class Cabal < ActiveRecord::Base
 		end
 	end
 	
+	# Removes a user from the cabal.
+	# Should only ever be called on behalf of the removed user himself.
+	# Takes the user object as input.
+	# Returns 0 if user is not in the cabal, 1 if user removed successfully and 
+	# there are remaining users, -1 for last user removed.
+	def remove_member(user)
+		if !self.users.include?(user)
+			return 0
+		end
+		self.users.delete(user)
+		self.save
+		if self.users.length==0
+			return -1
+		else
+			return 1
+		end
+	end
+			
+	
 	# Return the name string of the cabal if it's not empty, or "nameless cabal" if it is.
 	def name
 		if self.cabal_name==""

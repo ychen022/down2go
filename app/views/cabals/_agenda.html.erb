@@ -37,3 +37,8 @@
 <div id="pinpoints_info">
 </div>
 
+<div id="agenda_operations">
+  <%= link_to "Quit Cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
+  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>
+</div>
+
