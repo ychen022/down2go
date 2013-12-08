@@ -3,6 +3,7 @@ var agenda_info;
 var ppoints;
 var geocoder;
 var map;
+var directionsService;
 
 Pinpoints = function(){
   var pins = {};
@@ -30,8 +31,16 @@ AgendaInfo = function(){
       agenda_info.sort(function(a,b){
         var ah = parseInt(a.time.substring(0,2));
         var bh = parseInt(b.time.substring(0,2));
-        ah = (a.time.substring(6,8)==="PM")?ah+12:ah;
-        bh = (b.time.substring(6,8)==="PM")?bh+12:bh;
+        if ((a.time.substring(6,8)==="PM") && (a.time.substring(0,2)!="12")){
+          ah+=12;
+        }else if((a.time.substring(6,8)==="AM") && (a.time.substring(0,2)==="12")){
+          ah=0;
+        }
+        if ((b.time.substring(6,8)==="PM") && (b.time.substring(0,2)!="12")){
+          bh+=12;
+        }else if((b.time.substring(6,8)==="AM") && (b.time.substring(0,2)==="12")){
+          bh=0;
+        }
         return ah*60+parseInt(a.time.substring(3,5))-bh*60-parseInt(b.time.substring(3,5));
         //var dateA=new Date(a.time);
         //var dateB=new Date(b.time);
