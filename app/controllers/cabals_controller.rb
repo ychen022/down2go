@@ -45,11 +45,11 @@ class CabalsController < ApplicationController
 	def add_member
 		result=@cabal.add_member(params[:username])
 		if result==0
-			flash.now[:alert] = "User does not exist. "
+			flash[:alert] = "User does not exist. "
 		elsif result==-1
-			flash.now[:alert] = "User already in cabal. "
+			flash[:alert] = "User already in cabal. "
 		else
-			flash.now[:notice] = "Successfully added user to cabal. "
+			flash[:notice] = "Successfully added user to cabal. "
 		end
 		redirect_to cabal_path(@cabal)
 	end
