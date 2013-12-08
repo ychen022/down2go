@@ -100,19 +100,28 @@ var get_direction=function(start, end, car){
         //directionsDisplay.setDirections(result);
         tResult = result;
       }
-      directionsService.route(walk_request, function(result, status) {
-        console.log("walk: "+status);
-        if (status == google.maps.DirectionsStatus.OK) {
+      directionsService.route(walk_request, function(wresult, wstatus) {
+        console.log("walk: "+wstatus);
+        if (wstatus == google.maps.DirectionsStatus.OK) {
           //directionsDisplay.setDirections(result);
           var dResult;
           var leave_at;
-          if (!tResult || (time_to_utc(end.time)-result.routes[0].legs[0].duration.value)>tResult.routes[0].legs[0].departure_time.value){
-            dResult = result;
-            leave_at = time_to_utc(end.time)-result.routes[0].legs[0].duration.value;
+          //console.log(tResult);
+          //console.log(tResult.routes[0].legs[0].departure_time);
+          if (!tResult || !tResult.routes[0].legs[0].departure_time){
+            console.log("ENTRY A");
+            dResult = wresult;
+            leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
+            update_agenda_with_direction(start, end, dResult, leave_at);
+          }else if ((time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value)>tResult.routes[0].legs[0].departure_time.value){
+            console.log("ENTRY B "+time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value);
+            dResult = wresult;
+            leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
             update_agenda_with_direction(start, end, dResult, leave_at);
           }else{
+            console.log("ENTRY C "+tResult.routes[0].legs[0].departure_time.value);
             dResult = tResult;
-            leave_at = tResult.routes[0].legs[0].departure_time.value;
+            leave_at = tResult.routes[0].legs[0].departure_time.value.getTime()/1000;
             update_agenda_with_direction(start, end, dResult, leave_at);
           }
         }
@@ -140,11 +149,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at){
     // Display ideal departure time
     var nd = new Date(leave_at*1000);
     vDiv.append('<div class="route_info">\
-    You need to leave for the next agenda item at '+nd.toUTCString()+'. <br />\
-    The travel time required is '+dResult.routes[0].legs[0].duration.text+'.\
-    </div>');
-    console.log('<div class="route_info">\
-    You need to leave for the next agenda item at '+nd.toUTCString()+'. <br />\
+    You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
     The travel time required is '+dResult.routes[0].legs[0].duration.text+'.\
     </div>');
     console.log("agenda notice appended");
@@ -165,7 +170,8 @@ var time_to_utc = function(tString){
   }
   var dateStr = $('.cabal-date-hidden').val();
   var dayTime = new Date(dateStr);
-  return (hr*60+parseInt(tString.substring(3,5)))*60+dayTime.getTime()/1000;
+  // -19 comes from the datestr causing a 19:00 time. not sure why.
+  return ((hr-19)*60+parseInt(tString.substring(3,5)))*60+dayTime.getTime()/1000;
 }
 
 $(function(){
