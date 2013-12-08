@@ -1,10 +1,10 @@
 // Insert the new pinpoint data into the agenda array.
-var updateAgendaArray = function(id, time, place){
+var updateAgendaArray = function(id, time, place, latitude, longitude){
   console.log(time);
   agenda_info.add({'id': id, 'time':time, 'place':place});
   agenda_info.sort();
   
-  addPinToMap(id, time, place);
+  addPinToMap(id, time, place, latitude, longitude);
 }
 
 var updateAgendaWithDirection = function(id, time, place){
@@ -31,9 +31,9 @@ var clearAgendaArray = function(){
 }
 
 // Add a specified pinpoint to the map.
-var addPinToMap = function(id, time, place){
+var addPinToMap = function(id, time, place, latitude, longitude){
   console.log("updating map");
-  add_pin(id, place, time);
+  add_pin(id, place, time, latitude, longitude);
   console.log("map updated");
 }
 
