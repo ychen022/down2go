@@ -14,7 +14,7 @@ $(function(){
         $dialog.scrollTop($dialog.prop('scrollHeight'));
     });
     channel.bind('pinpoint', function(data) {
-        updateAgendaArray(data.id, data.time, data.place);
+        updateAgendaArray(data.id, data.time, data.place, data.latitude, data.longitude);
         // Ideally the next line should be used that involves at most 2 direction api calls.
         //updateAgendaWithDirection(data.id, data.time, data.place);
         rewriteAgenda();
@@ -50,41 +50,43 @@ var initialize=function() {
     <% @pinpoints.each do |p| %>
         var place_id = '<%= p.id %>';
     var place_name = '<%= p.place %>';
+    var place_latitude = '<%= p.latitude %>'
+    var place_longitude = '<%= p.longitude %>'
     var place_time = '<%= p.time %>';
-    add_pin(place_name, place_time);
+    add_pin(place_name, place_time, place_latitude, place_longitude);
     <% end %>
         console.log("Map initialized");
 }
 
 var infowindowopen;
 
-var add_pin=function(id, place, time) {
+var add_pin=function(id, place, time, latitude, longitude) {
     console.log("Adding pin");
-    geocoder.geocode( { 'address': place}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location,
-                icon: image,
-                title: place
-            });
-            var contentNode = document.createElement("div");
-            contentNode.className = "infowindow_content";
-            // Replace with desired string or dom element for the marker
-            var nodeContent = document.createElement("p");
-            nodeContent.innerHTML = id+", "+place+", "+time;
-            contentNode.appendChild(nodeContent);
-            google.maps.event.addListener(marker, 'click', function(){
-              if (infowindowopen) infowindowopen.close();
-              infowindowopen = new google.maps.InfoWindow({
-                content: contentNode
-              });
-              infowindowopen.open(map, marker);
-            });
-            ppoints.add(id, marker);
-            //pins[id] =  marker;
-        }
+
+    var Latlng = new google.maps.LatLng(latitude, longitude);
+      
+    var marker = new google.maps.Marker({
+        map: map,
+        position: Latlng,
+        icon: image,
+        title: place
     });
+    var contentNode = document.createElement("div");
+    contentNode.className = "infowindow_content";
+    // Replace with desired string or dom element for the marker
+    var nodeContent = document.createElement("p");
+    nodeContent.innerHTML = id+", "+place+", "+time;
+    contentNode.appendChild(nodeContent);
+    google.maps.event.addListener(marker, 'click', function(){
+      if (infowindowopen) infowindowopen.close();
+      infowindowopen = new google.maps.InfoWindow({
+        content: contentNode
+      });
+      infowindowopen.open(map, marker);
+    });
+    ppoints.add(id, marker);
+    //pins[id] =  marker;
+        
     console.log("Pin added");
 }
 

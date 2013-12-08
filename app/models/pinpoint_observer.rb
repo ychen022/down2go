@@ -3,7 +3,10 @@ class PinpointObserver < ActiveRecord::Observer
     place = pinpoint.place
     time = pinpoint.time
     cabal_id = pinpoint.cabal_id
-    Pusher[('cabal-' + cabal_id.to_s())].trigger!('pinpoint', {:id => pinpoint.id, :place => place, :time => time.strftime("%I:%M %p")})
+    latitude = pinpoint.latitude
+    longitude = pinpoint.longitude
+    Pusher[('cabal-' + cabal_id.to_s())].trigger!('pinpoint', {:id => pinpoint.id, :place => place, :time => time.strftime("%I:%M %p"),
+      :latitude => latitude, :longitude => longitude})
   end
 
   def before_destroy(pinpoint)
