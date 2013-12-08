@@ -267,10 +267,22 @@ $(function(){
 
     $('#check-on-map').click(function(){
       check_on_map();
+      $('#findonmapDIV').hide();
+      $('#addtoagendaDIV').show();
     });
     
     $('#check_agenda').click(function(){
       direction_update_all();
+    });
+
+    $('.agenda-addbtn').click(function(){
+      $('#addtoagendaDIV').hide();
+      $('#findonmapDIV').show();
+    });
+
+    $('#backToFind').click(function(){
+      $('#addtoagendaDIV').hide();
+      $('#findonmapDIV').show();
     });
       
 });

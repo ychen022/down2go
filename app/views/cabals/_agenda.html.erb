@@ -1,52 +1,57 @@
-<p class="agendalabel">Enter your place here:</p>
+<div id="findonmapDIV" class="submissionDIV">
+    <p class="agendalabel">Enter your place here:</p>
+    <input class="inputWrap" id="address" placeholder="MIT, Cambridge" type="text">
+    <button type="button" id="check-on-map" class="agendamapbtn">1. see it on the map!</button><br>
+</div>
 
-<input class="inputWrap" id="address" placeholder="MIT, Cambridge" type="text">
+<div id="addtoagendaDIV" class="submissionDIV" style="display:none">
+    <%= form_for(@pinpoint, remote: true) do |f| %>
+        <div class="new-pinpoint-error"></div>
 
-<button type="button" id="check-on-map" class="agendamapbtn">find it on the map!</button><br>
+        Optional custom name:
+        <%= f.text_field(:place, class: "inputWrap") %><br>
+
+        <%= f.hidden_field :latitude, :value => "" %>
+        <%= f.hidden_field :longitude, :value => "" %>
+
+        <select class="pinpoint-time timedropdown">
+            <option value="1:00">1:00</option>
+            <option value="2:00">2:00</option>
+            <option value="3:00">3:00</option>
+            <option value="4:00">4:00</option>
+            <option value="5:00">5:00</option>
+            <option value="6:00">6:00</option>
+            <option value="7:00">7:00</option>
+            <option value="8:00">8:00</option>
+            <option value="9:00">9:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00" selected>12:00</option>
+        </select>
+
+        <select class="pinpoint-time-am amdropdown">
+            <option value='' disabled selected style='display:none;'>Please Choose</option>
+            <option value="AM">AM</option>
+            <option value="PM" selected>PM</option>
+        </select>
+
+        <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
+        <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
+        <%= f.hidden_field :cabal_date, :class => 'cabal-date-hidden', :value => @cabal.activity_date %>
+        <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
+        <button type="button" id="backToFind" class="agendamapbtn">back</button><br>
+    <% end %>
+</div>
 
 <hr>
 
-<%= form_for(@pinpoint, remote: true) do |f| %>
-    <div class="new-pinpoint-error"></div>
 
-    Short Name for your place:
-    <%= f.text_field(:place, class: "inputWrap") %><br>
-
-    <%= f.hidden_field :latitude, :value => "" %>
-    <%= f.hidden_field :longitude, :value => "" %>
-
-    <select class="pinpoint-time timedropdown">
-        <option value="1:00">1:00</option>
-        <option value="2:00">2:00</option>
-        <option value="3:00">3:00</option>
-        <option value="4:00">4:00</option>
-        <option value="5:00">5:00</option>
-        <option value="6:00">6:00</option>
-        <option value="7:00">7:00</option>
-        <option value="8:00">8:00</option>
-        <option value="9:00">9:00</option>
-        <option value="10:00">10:00</option>
-        <option value="11:00">11:00</option>
-        <option value="12:00" selected>12:00</option>
-    </select>
-
-    <select class="pinpoint-time-am amdropdown">
-        <option value='' disabled selected style='display:none;'>Please Choose</option>
-        <option value="AM">AM</option>
-        <option value="PM" selected>PM</option>
-    </select>
-
-    <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
-    <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
-    <%= f.hidden_field :cabal_date, :class => 'cabal-date-hidden', :value => @cabal.activity_date %>
-    <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
-<% end %>
 
 <div id="pinpoints_info">
 </div>
 
 <div id="agenda_operations">
-  <%= link_to "Quit Cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
+    <%= link_to "Quit Cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
   someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %><br />
   <input type="checkbox" id="has_car" value="car">Has car</input><br />
   <button type="button" id="check_agenda">Check agenda time</button><br />

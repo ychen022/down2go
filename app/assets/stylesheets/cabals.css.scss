@@ -2,8 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
 img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
 max-width: none;
+}
+
+.submissionDIV {
+    height:130px;
 }
 
 .gmnoprint img { 
@@ -16,7 +21,7 @@ max-width: none;
 }
 
 .agendamapbtn{
-    padding: 8px 12px;
+    padding: 5px 12px;
     font-size: 14px;
     font-weight: 700;
     color: #fff;
@@ -45,7 +50,7 @@ max-width: none;
 }
 
 .agenda-addbtn{
-    padding: 8px 12px;
+    padding: 5px 12px;
     font-size: 14px;
     font-weight: 700;
     color: #fff;
