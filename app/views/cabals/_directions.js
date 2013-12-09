@@ -102,15 +102,8 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
        */
 
     if (leave_at<time_to_utc(start.time)){
-<<<<<<< HEAD
         // When the latest departure time to reach the next place is earlier than the time the cabal arrives at the
         // current place, display an error message
-        vDiv.append('<div class="route_info">\
-                You will not make it to the next agenda item in time. <br />\
-                The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
-                </div>');
-=======
-        // Display error message
         vDiv.html('<a class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-warning-sign routebad"></i></a>');
 
         $('.pop').popover({
@@ -123,9 +116,10 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
            You will not make it to the next agenda item in time. <br />\
            The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
            </div>'); */
->>>>>>> 0a57225eee6658cf3d52b13f49bfa7c7b1b72503
         console.log("agenda error appended");
     }else{
+        console.log(start, end, dResult);
+        console.log(leave_at, time_to_utc(start.time));
         // Otherwise, display the latest departure time
         var nd = new Date(leave_at*1000);
 
@@ -195,9 +189,11 @@ var direction_update_all = function(){
         get_direction(aInfo[i], aInfo[i+1], car);
     }
     // Removes the direction content from the last item in agenda info array.
-    var vDiv = $('#'+aInfo[aInfo.length-1].id);
-    if (vDiv.children('div.route_info')!=0){
-        $('div.route_info','#'+aInfo[aInfo.length-1].id).remove();
+    if (aInfo.length>0){
+      var vDiv = $('#'+aInfo[aInfo.length-1].id);
+      if (vDiv.children('div.route_info')!=0){
+          $('div.route_info','#'+aInfo[aInfo.length-1].id).remove();
+      }
     }
 }
 </script>
