@@ -74,11 +74,12 @@ var add_pin=function(id, place, time, latitude, longitude) {
     var nodeContent = document.createElement("p");
     nodeContent.innerHTML = place+", "+time;
     contentNode.appendChild(nodeContent);
-    var infowindow = new google.maps.InfoWindow({
+
+    marker.infowindow = new google.maps.InfoWindow({
       content: contentNode
     });
     google.maps.event.addListener(marker, 'click', function(){
-      infowindow.open(map, marker);
+      marker.infowindow.open(map, marker);
     });
     ppoints.add(id, marker);
     //pins[id] =  marker;

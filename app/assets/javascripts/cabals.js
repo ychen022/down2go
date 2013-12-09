@@ -36,6 +36,11 @@ Pinpoints = function(){
         pins[id].setMap(null);
         delete pins[id];
       }
+    },
+    openInfoWindow: function(id) {
+      var pin = pins[id];
+      var infoWindow = pin.infowindow;
+      infoWindow.open(map, pin);
     }
   };
 }
@@ -109,6 +114,11 @@ ready = function() {
     } else {
       $member_area.css("display", "none");
     }
+  });
+
+  $(document).on('click', '.agendalist', function(){
+    var id = $(this).attr("id");
+    ppoints.openInfoWindow(id);
   });
   
   $('#message_content').keypress(function(evt){
