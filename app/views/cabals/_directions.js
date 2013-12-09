@@ -18,7 +18,7 @@ var get_direction=function(start, end, car){
                 //directionsDisplay.setDirections(result);
                 var dResult = result;
                 var leave_at = time_to_utc(end.time)-result.routes[0].legs[0].duration.value;
-                update_agenda_with_direction(start, end, dResult, leave_at);
+                update_agenda_with_direction(start, end, dResult, leave_at, "driving");
             }
         });
     }else{
@@ -110,6 +110,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
                 </div>');
         console.log("agenda notice appended");
     }
+    ppoints.add_direction(start.id, dResult);
 }
 
 // Calculate the difference in seconds of two time strings in HH:MM AM/PM
