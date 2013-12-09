@@ -4,12 +4,7 @@
 <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
 <% end %>
 
-            <% if notice %>
-                <p class="alert"><%= notice %></p>
-            <% end %>
-            <% if alert %>
-                <p class="alert"><%= alert %></p>
-            <% end %>
+
 <% flash.each do |name, msg| %> <%= content_tag :div, msg, :class => "flash_#{name}" %> <% end %>
 
 
