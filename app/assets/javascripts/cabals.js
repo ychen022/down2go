@@ -124,7 +124,7 @@ ready = function() {
     }
   });
 
-  $(document).on('click', '.agendalist', function(){
+  $(document).on('click', '.agendaitem', function(){
     var id = $(this).attr("id");
     ppoints.toggleInfoWindow(id);
   });

@@ -46,10 +46,21 @@ var removePinFromMap = function(id){
 var rewriteAgenda = function(){
   infoText="";
   for (var i=0; i<agenda_info.length();i++){
-    infoText+='<div class="info_line agendalist" id='+agenda_info.get(i).id+'>\
-    <a data-method="delete" data-remote="true" href="/pinpoints/'+agenda_info.get(i).id.toString()+'" rel="nofollow">\
-    <span class="glyphicon glyphicon-remove pull-right" ></span></a>'+agenda_info.get(i).time+"<br />"+agenda_info.get(i).place+"<br />\
-    </div>";
+
+    var new_div = '<li class="agendaitem" id='+agenda_info.get(i).id+'>'
+    + '<div class="cbp_tmicon"></div>'
+    + '<div class="cbp_tmlabel">'
+    + '<h2>'
+    + agenda_info.get(i).time
+    + '<a data-method="delete" data-remote="true" href="/pinpoints/'+agenda_info.get(i).id.toString()+'" rel="nofollow">\
+    <span class="glyphicon glyphicon-remove pull-right" ></span></a>'
+    + '</h2>'
+    + '<div>'
+    + agenda_info.get(i).place
+    + '</div>'
+    + '</li>';
+
+    infoText += new_div;
   }
   $("#pinpoints_info").html(infoText);
 }
