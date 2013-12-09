@@ -1,4 +1,10 @@
 <script type="text/javascript">
+// Build and send the request for direction from [start] to [end].
+// Calculates the appropriate time the user should leave one agenda item for another, and 
+// calls the dom update method.
+// start: an item in agenda_info
+// end: an item in agenda_info
+// car: boolean, whether the cabal has a car
 var get_direction=function(start, end, car){
     if (car){
         var request = {
@@ -75,6 +81,13 @@ var get_direction=function(start, end, car){
     }
 }
 
+// Clears the previous direction content in the id-related div of [start], and append the new
+// direction content to it.
+// start: an item in agenda_info
+// end: an item in agenda_info
+// dResult: response from the direction api
+// leave_at: time in seconds when the cabal should leave [start] for [end]
+// method: description of the transportation method
 var update_agenda_with_direction = function(start, end, dResult, leave_at, method){
     console.log("Updating agenda: "+start.id);
     var vDiv = $('#'+start.id);
@@ -117,7 +130,12 @@ var time_to_utc = function(tString){
     // -19 comes from the datestr causing a 19:00 time. not sure why.
     return ((hr-19)*60+parseInt(tString.substring(3,5)))*60+dayTime.getTime()/1000;
 }
-// Experimental
+// Runs a recursive loop to calculate the directions connecting a certain array with an interval
+// between each iteration.
+// aInfo: the array to loop
+// i: the current index looping on
+// max: the ending index for the loop in the array
+// car: whether the cabal has a car
 var direction_loop_delayed = function(aInfo, i, max, car){
     if (i>=max) return;
     setTimeout(function(){
@@ -128,6 +146,7 @@ var direction_loop_delayed = function(aInfo, i, max, car){
     }, 50);
 }
 
+// Calculates all the directions between two connecting agenda items.
 var direction_update_all = function(){
     var car=$('#has_car').prop('checked');
     var aInfo = agenda_info.all();
