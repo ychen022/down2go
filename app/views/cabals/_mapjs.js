@@ -17,14 +17,11 @@ $(function(){
     //Handle receiving data to add a pinpoint
     channel.bind('pinpoint', function(data) {
         updateAgendaArray(data.id, data.time, data.place, data.latitude, data.longitude);
-        // Ideally the next line should be used that involves at most 2 direction api calls.
-        //updateAgendaWithDirection(data.id, data.time, data.place);
         rewriteAgenda();
-        // Subpar solution. May cause OVER_QUERY_LIMIT
         setTimeout(direction_update_all, 20);
     });
 
-    //Handel receiving data to delete a pinpoint
+    //Handle receiving data to delete a pinpoint
     channel.bind('delete-pinpoint', function(data){
         removeAgendaItem(data.id);
         removePinFromMap(data.id);
@@ -77,7 +74,7 @@ var reassign_marker_icons = function(){
   aInfo = agenda_info.all();
   for (var i=0; i<aInfo.length;i++){
     var ROOT_PATH = '<%= root_url %>';
-    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png"
+    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png";
     var pm = ppoints.get(aInfo[i].id);
     pm.setIcon(imgpath);
   }

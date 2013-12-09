@@ -7,6 +7,7 @@
 // car: boolean, whether the cabal has a car
 var get_direction=function(start, end, car){
     if (car){
+        // If the cabal has a car, check the directions with driving options.
         var request = {
             origin:start.place,
             destination:end.place,
@@ -21,6 +22,7 @@ var get_direction=function(start, end, car){
             }
         });
     }else{
+        // If the cabal does not have a car, check the walking/transit directions.
         var endtime = new Date(time_to_utc(end.time)*1000);
         var transit_request = {
             origin:start.place,
@@ -40,37 +42,38 @@ var get_direction=function(start, end, car){
             var leave_at;
             if (wstatus == google.maps.DirectionsStatus.OK) {
                 if (wresult.routes[0].legs[0].duration.value>1800){
-                    // Proceeds with the direction with public transit option.
+                    // If it takes the cabal more than 30 mins to walk to the next place, 
+                    // proceed with the direction request with public transit option.
                     directionsService.route(transit_request, function(result, status) {
                         console.log("transit: "+status);
                         var tResult;
                         if (status == google.maps.DirectionsStatus.OK) {
                             tResult = result;
                             if (!tResult.routes[0].legs[0].departure_time){
-                                console.log("ENTRY A");
-                                dResult = wresult;
+                                // When the transit request returned a walking instruction, take the walking request response
+                                finddResult = wresult;
                                 leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
                                 update_agenda_with_direction(start, end, dResult, leave_at, "walking");
                             }else if ((time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value)>tResult.routes[0].legs[0].departure_time.value){
-                                console.log("ENTRY B "+time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value);
+                                // When the latest departure time through transit is earlier than that through walking, take the walking request response
                                 dResult = wresult;
                                 leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
                                 update_agenda_with_direction(start, end, dResult, leave_at, "walking");
                             }else{
-                                console.log("ENTRY C "+tResult.routes[0].legs[0].departure_time.value);
+                                // Otherwise, take the transit request response
                                 dResult = tResult;
                                 leave_at = tResult.routes[0].legs[0].departure_time.value.getTime()/1000;
                                 update_agenda_with_direction(start, end, dResult, leave_at, "public transit");
                             }
                         }else{
-                            console.log("ENTRY E");
+                            // If the transit request fails to receive a response (due to free api limit), take the walking request response
                             dResult = wresult;
                             leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
                             update_agenda_with_direction(start, end, dResult, leave_at, "walking");
                         }
                     });
                 }else{
-                    console.log("ENTRY F");
+                    // If it takes less than 30 mins to walk to the next place, just take the walking request response
                     dResult = wresult;
                     leave_at = time_to_utc(end.time)-wresult.routes[0].legs[0].duration.value;
                     update_agenda_with_direction(start, end, dResult, leave_at, "walking");
@@ -92,41 +95,38 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
     var vDiv = $('#'+start.id).find('.routeEval');
 
     //If an evaluation already exiss
-       if (vDiv.find('p.pop')!=0){ 
-       $('p.pop','#'+start.id).remove();
-       }
+    if (vDiv.find('p.pop')!=0){ 
+        $('p.pop','#'+start.id).remove();
+    }
 
     if (leave_at<time_to_utc(start.time)){
-        // Display error message
-        vDiv.html('<p class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-warning-sign routebad"></i></p>');
+            // When the latest departure time to reach the next place is earlier than the time the cabal arrives at the
+            // current place, display an error message
+            vDiv.html('<p class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-warning-sign routebad"></i></p>');
 
-
-        /* 
-           <div class="route_info">\
-           You will not make it to the next agenda item in time. <br />\
-           The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
-           </div>'); */
-        console.log("agenda error appended");
+            console.log("agenda error appended");
     }else{
-        // Display ideal departure time
+        console.log(start, end, dResult);
+        console.log(leave_at, time_to_utc(start.time));
+        // Otherwise, display the latest departure time
         var nd = new Date(leave_at*1000);
 
         vDiv.html('<p class="pop routeok" data-content="You need to leave for the next agenda item at ' +nd.toLocaleTimeString()+ '. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-ok routeok"></i></p>');
 
         /*
-        vDiv.append('<div class="route_info">\
-        You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
-        The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
-        </div>');
-        */
+           vDiv.append('<div class="route_info">\
+           You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
+           The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
+           </div>');
+           */
         console.log("agenda notice appended");
     }
 
-        $('.pop').popover({
-            trigger: 'hover',
-            'placement': 'left',
-            container: 'body'
-        });
+    $('.pop').popover({
+        trigger: 'hover',
+        'placement': 'left',
+        container: 'body'
+    });
     ppoints.add_direction(start.id, dResult);
 }
 
@@ -137,19 +137,22 @@ var time_difference = function(timea, timeb){
 
 // Converts a time string HH:MM AM/PM to the UTC time in seconds
 var time_to_utc = function(tString){
+    // Get the hour number
     var hr = parseInt(tString.substring(0,2));
+    // Convert the hour number to a 24 hour format.
     if ((tString.substring(6,8)==="PM") && (tString.substring(0,2)!="12")){
         hr+=12;
     }else if((tString.substring(6,8)==="AM") && (tString.substring(0,2)==="12")){
         hr=0;
     }
+    // Get the date of the cabal hangout
     var dateStr = $('.cabal-date-hidden').val();
     var dayTime = new Date(dateStr);
     // -19 comes from the datestr causing a 19:00 time. not sure why.
     return ((hr-19)*60+parseInt(tString.substring(3,5)))*60+dayTime.getTime()/1000;
 }
 // Runs a recursive loop to calculate the directions connecting a certain array with an interval
-// between each iteration.
+// between each iteration. Implemented to avoid sending too many requests at once.
 // aInfo: the array to loop
 // i: the current index looping on
 // max: the ending index for the loop in the array
@@ -173,9 +176,11 @@ var direction_update_all = function(){
         get_direction(aInfo[i], aInfo[i+1], car);
     }
     // Removes the direction content from the last item in agenda info array.
-    var vDiv = $('#'+aInfo[aInfo.length-1].id);
-    if (vDiv.find('p.pop')!=0){
-        $('p.pop','#'+aInfo[aInfo.length-1].id).remove();
+    if (aInfo.length>0){
+        var vDiv = $('#'+aInfo[aInfo.length-1].id);
+        if (vDiv.find('p.pop')!=0){
+            $('p.pop','#'+aInfo[aInfo.length-1].id).remove();
+        }
     }
 }
 </script>
