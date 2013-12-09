@@ -5,7 +5,6 @@ var remnant_markers;
 var geocoder;
 var map;
 var directionsService;
-var directionsDisplay;
 var ready;
 ready = function() {
   //When changing the time field, the hidden field updates
