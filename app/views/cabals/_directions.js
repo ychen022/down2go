@@ -9,8 +9,8 @@ var get_direction=function(start, end, car){
     if (car){
         // If the cabal has a car, check the directions with driving options.
         var request = {
-            origin:start.place,
-            destination:end.place,
+            origin:start.latitude+","+start.longitude,
+            destination:end.latitude+","+end.longitude,
             travelMode:google.maps.TravelMode.DRIVING
         };
         directionsService.route(request, function(result, status) {
@@ -25,14 +25,14 @@ var get_direction=function(start, end, car){
         // If the cabal does not have a car, check the walking/transit directions.
         var endtime = new Date(time_to_utc(end.time)*1000);
         var transit_request = {
-            origin:start.place,
-            destination:end.place,
+            origin:start.latitude+","+start.longitude,
+            destination:end.latitude+","+end.longitude,
             travelMode:google.maps.TravelMode.TRANSIT,
             transitOptions: {arrivalTime:endtime}
         };
         var walk_request = {
-            origin:start.place,
-            destination:end.place,
+            origin:start.latitude+","+start.longitude,
+            destination:end.latitude+","+end.longitude,
             travelMode:google.maps.TravelMode.WALKING
         };
         // Get the walking request result first, then check the duration of the trip.
@@ -106,8 +106,8 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
 
             console.log("agenda error appended");
     }else{
-        console.log(start, end, dResult);
-        console.log(leave_at, time_to_utc(start.time));
+        //console.log(start, end, dResult);
+        //console.log(leave_at, time_to_utc(start.time));
         // Otherwise, display the latest departure time
         var nd = new Date(leave_at*1000);
 

@@ -12,7 +12,7 @@ AgendaInfo = function(){
     get: function(index) {return agenda_info[index];},
 
     //add a new item into the agenda
-    //Item should contain attributes id, time and place
+    //Item should contain attributes id, time, lat, lng
     add: function(item) {agenda_info.push(item);},
 
     //remove an item from the agenda list.
