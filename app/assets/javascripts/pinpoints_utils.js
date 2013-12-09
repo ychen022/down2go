@@ -77,7 +77,7 @@ var rewriteAgenda = function(){
     + '<div class="cbp_tmlabel">'
     + '<h2>'
     + agenda_info.get(i).time 
-    + '<a data-method="delete" data-remote="true" href="/pinpoints/'+agenda_info.get(i).id.toString()+'" rel="nofollow">\
+    + '<a data-method="delete" class="rmTimeline" data-remote="true" href="/pinpoints/'+agenda_info.get(i).id.toString()+'" rel="nofollow">\
     <span class="glyphicon glyphicon-remove pull-right" ></span></a>'
     + '</h2>'
     + '<div>'

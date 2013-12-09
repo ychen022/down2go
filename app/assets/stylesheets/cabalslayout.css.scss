@@ -22,6 +22,10 @@
     right: 0px;
     background-color: #fff;
     border-radius:5px;
+
+    -moz-box-shadow:    3px 3px 5px 5px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 5px #ccc;
+    box-shadow:         3px 3px 5px 5px #ccc;
 }
 
 #chat_area{
@@ -47,6 +51,7 @@
     padding: 0px;
     border-radius: 5px;
     overflow:auto;
+    border: 1px solid #ccc;
 }
 
 
