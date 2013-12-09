@@ -181,6 +181,9 @@ var direction_update_all = function(){
         if (vDiv.find('p.pop')!=0){
             $('p.pop','#'+aInfo[aInfo.length-1].id).remove();
         }
+        if (ppoints.get_direction(aInfo[aInfo.length-1].id)!=null){
+          ppoints.remove_direction(aInfo[aInfo.length-1].id);
+        }
     }
 }
 </script>

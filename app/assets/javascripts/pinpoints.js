@@ -20,6 +20,14 @@ Pinpoints = function(){
     
     //associate an id with a direction api response.
     add_direction: function(id, direction) {directions[id]=direction;},
+    
+    get_direction: function(id) {return directions[id];},
+    
+    remove_direction: function(id) {
+      if (directions[id]!=null){
+          delete directions[id];
+      }
+    },
 
     //add a marker with a specific id. 
     //this "id" is the id of the corresponding pinpoint in the database
@@ -49,10 +57,6 @@ Pinpoints = function(){
       else{
           infoWindow.open(map, pin);
           infoWindow.opened = true;
-      }
-      // If the marker's id is associated with a direction result, display it.
-      if (directions[id]){
-        directionsDisplay.setDirections(directions[id]);
       }
     }
   };
