@@ -1,6 +1,7 @@
 clearAgendaArray();
 <% @pinpoints.each do |p| %>
-updateAgendaArray('<%=p.id%>','<%=p.time.strftime("%I:%M %p")%>','<%=p.place%>')
+updateAgendaArray('<%=p.id%>','<%=p.time.strftime("%I:%M %p")%>','<%=p.place%>',
+  '<%=p.latitude%>', '<%=p.longitude%>')
 <% end %>
 
 rewriteAgenda();

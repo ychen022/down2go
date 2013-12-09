@@ -13,10 +13,17 @@
 
 .chat-textarea {
     height: 20px;
-    width:620px;
+    width:420px;
     border-top: 1px solid #C9C9C9;
     display: inline;
     float:left;
+}
+
+.chat-enter{
+    position:absolute;
+    width:100%;
+    bottom:0px;
+    margin-bottom:10px;
 }
 
 .submitBtn{

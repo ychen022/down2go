@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117183001) do
+ActiveRecord::Schema.define(version: 20131208203133) do
 
   create_table "cabal_users", id: false, force: true do |t|
     t.integer "user_id",  null: false
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20131117183001) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cabal_id"
+    t.string   "latitude"
+    t.string   "longitude"
   end
 
   add_index "pinpoints", ["cabal_id"], name: "index_pinpoints_on_cabal_id"

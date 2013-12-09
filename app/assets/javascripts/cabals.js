@@ -27,6 +27,7 @@ Remnant_markers = function(){
 
 Pinpoints = function(){
   var pins = {};
+  google.maps.InfoWindow.prototype.opened = false;
   return {
     all: function() {return pins;},
     get: function(id) {return pins[id];},
@@ -35,6 +36,18 @@ Pinpoints = function(){
       if (pins[id]!=null){
         pins[id].setMap(null);
         delete pins[id];
+      }
+    },
+    toggleInfoWindow: function(id) {
+      var pin = pins[id];
+      var infoWindow = pin.infowindow;
+      if(infoWindow.opened){
+          infoWindow.close();
+          infoWindow.opened = false;
+      }
+      else{
+          infoWindow.open(map, pin);
+          infoWindow.opened = true;
       }
     }
   };
@@ -110,10 +123,16 @@ ready = function() {
       $member_area.css("display", "none");
     }
   });
+
+  $(document).on('click', '.agendalist', function(){
+    var id = $(this).attr("id");
+    ppoints.toggleInfoWindow(id);
+  });
   
   $('#message_content').keypress(function(evt){
     var charCode = (evt.which) ? evt.which : window.event.keyCode; 
 		if (charCode == 13){ 
+      event.preventDefault();
       $('#new_message').submit();
     } 
   });
