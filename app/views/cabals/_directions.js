@@ -15,10 +15,9 @@ var get_direction=function(start, end, car){
         directionsService.route(request, function(result, status) {
             console.log("drive: "+status);
             if (status == google.maps.DirectionsStatus.OK) {
-                //directionsDisplay.setDirections(result);
                 var dResult = result;
                 var leave_at = time_to_utc(end.time)-result.routes[0].legs[0].duration.value;
-                update_agenda_with_direction(start, end, dResult, leave_at);
+                update_agenda_with_direction(start, end, dResult, leave_at, "driving");
             }
         });
     }else{
@@ -41,11 +40,11 @@ var get_direction=function(start, end, car){
             var leave_at;
             if (wstatus == google.maps.DirectionsStatus.OK) {
                 if (wresult.routes[0].legs[0].duration.value>1800){
+                    // Proceeds with the direction with public transit option.
                     directionsService.route(transit_request, function(result, status) {
                         console.log("transit: "+status);
                         var tResult;
                         if (status == google.maps.DirectionsStatus.OK) {
-                            //directionsDisplay.setDirections(result);
                             tResult = result;
                             if (!tResult.routes[0].legs[0].departure_time){
                                 console.log("ENTRY A");
@@ -133,6 +132,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
         */
         console.log("agenda notice appended");
     }
+    ppoints.add_direction(start.id, dResult);
 }
 
 // Calculate the difference in seconds of two time strings in HH:MM AM/PM
@@ -176,6 +176,11 @@ var direction_update_all = function(){
     direction_loop_delayed(aInfo, 0, aInfo.length-1, car);
     for (var i=0;i<aInfo.length-1;i++){
         get_direction(aInfo[i], aInfo[i+1], car);
+    }
+    // Removes the direction content from the last item in agenda info array.
+    var vDiv = $('#'+aInfo[aInfo.length-1].id);
+    if (vDiv.children('div.route_info')!=0){
+        $('div.route_info','#'+aInfo[aInfo.length-1].id).remove();
     }
 }
 </script>

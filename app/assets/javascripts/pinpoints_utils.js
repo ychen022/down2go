@@ -1,10 +1,48 @@
-// Insert the new pinpoint data into the agenda array.
+// Insert the new pinpoint data. First insert a new agenda item into agenda,
+// and then insert a new marker onto the map.
 var updateAgendaArray = function(id, time, place, latitude, longitude){
-  console.log(time);
   agenda_info.add({'id': id, 'time':time, 'place':place});
   agenda_info.sort();
   
   addPinToMap(id, time, place, latitude, longitude);
+}
+
+// Create a new marker with id, place, time, latitude and longitude,
+// and then cache the marker.
+var add_pin=function(id, place, time, latitude, longitude) {
+
+    var Latlng = new google.maps.LatLng(latitude, longitude);
+
+    //Create a new marker
+    var marker = new google.maps.Marker({
+        map: map,
+        position: Latlng,
+        title: place
+    });
+
+    //Create a short description for the place to fill out the marker's info window.
+    var contentNode = document.createElement("div");
+    contentNode.className = "infowindow_content";
+    // Replace with desired string or dom element for the marker
+    var nodeContent = document.createElement("p");
+    nodeContent.innerHTML = place+", "+time;
+    contentNode.appendChild(nodeContent);
+
+    //create an info window for the marker.
+    marker.infowindow = new google.maps.InfoWindow({
+      content: contentNode
+    });
+    
+    //cache the marker into the ppoints.
+    ppoints.add(id, marker);
+
+    //give each marker with its unique icons
+    reassign_marker_icons();
+
+    //add listeners onto each marker. When clicking it, the infoWindow will toggle.
+    google.maps.event.addListener(marker, 'click', function(){
+      ppoints.toggleInfoWindow(id);
+    });
 }
 
 var updateAgendaWithDirection = function(id, time, place){
@@ -25,24 +63,22 @@ var updateAgendaWithDirection = function(id, time, place){
   }
 }
 
-// Clear the agenda array.
+// Clear the agenda.
 var clearAgendaArray = function(){
   agenda_info.clear();
 }
 
-// Add a specified pinpoint to the map.
+// Add a specific pinpoint(marker) onto the map.
 var addPinToMap = function(id, time, place, latitude, longitude){
-  console.log("updating map");
   add_pin(id, place, time, latitude, longitude);
-  console.log("map updated");
 }
 
-// Remove a pinpoint from the map by id.
+// Remove a pinpoint(marker) from the map by id.
 var removePinFromMap = function(id){
   ppoints.remove(id)
 }
 
-// Render the agenda description area.
+// Render the agenda description area using the current agenda
 var rewriteAgenda = function(){
   infoText="";
   for (var i=0; i<agenda_info.length();i++){
