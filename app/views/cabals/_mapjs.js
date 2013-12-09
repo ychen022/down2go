@@ -66,8 +66,6 @@ var initialize=function() {
         console.log("Map initialized");
 }
 
-var infowindowopen;
-
 var add_pin=function(id, place, time, latitude, longitude) {
     console.log("Adding pin");
 
@@ -96,7 +94,6 @@ var add_pin=function(id, place, time, latitude, longitude) {
     google.maps.event.addListener(marker, 'click', function(){
       ppoints.toggleInfoWindow(id);
     });
-    //pins[id] =  marker;
 
     console.log("Pin added");
 }

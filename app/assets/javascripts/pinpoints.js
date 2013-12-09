@@ -1,5 +1,5 @@
-//This data structure represents all the markers (that compose the agenda) 
-//on the map. 
+//This data structure represents all the markers (that compose the agenda) and their related
+//direction results on the map. 
 Pinpoints = function(){
   var pins = {};
   var directions = {};
@@ -15,8 +15,9 @@ Pinpoints = function(){
     //get a marker with a specific id. 
     //this "id" is the id of the corresponding pinpoint in the database
     get: function(id) {return pins[id];},
+    
+    //associate an id with a direction api response.
     add_direction: function(id, direction) {directions[id]=direction;},
-    get_direction: function(id) {return directions[id];},
 
     //add a marker with a specific id. 
     //this "id" is the id of the corresponding pinpoint in the database
@@ -35,6 +36,7 @@ Pinpoints = function(){
     },
 
     //If a marker's infowindow is open, close it down; otherwise, open the infowindow.
+    //Additionally, display the route of transit from the marker to the next agenda item's marker.
     toggleInfoWindow: function(id) {
       var pin = pins[id];
       var infoWindow = pin.infowindow;

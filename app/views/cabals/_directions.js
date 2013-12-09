@@ -15,7 +15,6 @@ var get_direction=function(start, end, car){
         directionsService.route(request, function(result, status) {
             console.log("drive: "+status);
             if (status == google.maps.DirectionsStatus.OK) {
-                //directionsDisplay.setDirections(result);
                 var dResult = result;
                 var leave_at = time_to_utc(end.time)-result.routes[0].legs[0].duration.value;
                 update_agenda_with_direction(start, end, dResult, leave_at, "driving");
@@ -41,11 +40,11 @@ var get_direction=function(start, end, car){
             var leave_at;
             if (wstatus == google.maps.DirectionsStatus.OK) {
                 if (wresult.routes[0].legs[0].duration.value>1800){
+                    // Proceeds with the direction with public transit option.
                     directionsService.route(transit_request, function(result, status) {
                         console.log("transit: "+status);
                         var tResult;
                         if (status == google.maps.DirectionsStatus.OK) {
-                            //directionsDisplay.setDirections(result);
                             tResult = result;
                             if (!tResult.routes[0].legs[0].departure_time){
                                 console.log("ENTRY A");
