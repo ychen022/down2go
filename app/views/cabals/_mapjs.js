@@ -75,18 +75,18 @@ var add_pin=function(id, place, time, latitude, longitude) {
     contentNode.className = "infowindow_content";
     // Replace with desired string or dom element for the marker
     var nodeContent = document.createElement("p");
-    nodeContent.innerHTML = id+", "+place+", "+time;
+    nodeContent.innerHTML = place+", "+time;
     contentNode.appendChild(nodeContent);
 
 
     marker.infowindow = new google.maps.InfoWindow({
       content: contentNode
     });
-    google.maps.event.addListener(marker, 'click', function(){
-      marker.infowindow.open(map, marker);
-      infowindow.open(map, marker);
-    });
+    
     ppoints.add(id, marker);
+    google.maps.event.addListener(marker, 'click', function(){
+      ppoints.toggleInfoWindow(id);
+    });
     //pins[id] =  marker;
 
     console.log("Pin added");
@@ -264,6 +264,8 @@ $(function(){
 //                alert('Geocode was not successful for the following reason: ' + status);
             }
         });
+        $('#findonmapDIV').hide();
+        $('#addtoagendaDIV').show();
     };
 
     $('#address').keypress(function(evt){
@@ -275,9 +277,7 @@ $(function(){
     });
 
     $('#check-on-map').click(function(){
-        check_on_map();
-        $('#findonmapDIV').hide();
-        $('#addtoagendaDIV').show();
+        check_on_map();  
     });
 
     $('#check_agenda').click(function(){
