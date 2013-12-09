@@ -1,3 +1,9 @@
+<div class = "welcomeAgenda">
+    Welcome to cabal "<%= @cabal.name %>" <br />
+    (<%= link_to "leave cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
+  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>)
+</div>
+
 <div id="findonmapDIV" class="submissionDIV">
     <p class="agendalabel">Enter your place here:</p>
     <input class="inputWrap" id="address" placeholder="MIT, Cambridge" type="text">
@@ -54,10 +60,6 @@
 </div>
 
 <div id="agenda_operations">
-    <%= link_to "Quit Cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
-  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %><br />
   <input type="checkbox" id="has_car" value="car">Has car</input><br />
-  <button type="button" id="check_agenda">Check agenda time</button><br />
-  <div id="direction_results"></div>
 </div>
 
