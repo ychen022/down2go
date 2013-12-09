@@ -39,10 +39,11 @@
         <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
         <%= f.hidden_field :cabal_date, :class => 'cabal-date-hidden', :value => @cabal.activity_date %>
         <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
-        <button type="button" id="backToFind" class="agendamapbtn">back</button><br>
+        <button type="button" id="backToFind" class="agendamapbtn pull-right">back</button><br>
     <% end %>
 </div>
 
+<div id="searchErrorsDIV"></div>
 <hr>
 
 

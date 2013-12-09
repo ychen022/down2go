@@ -3,7 +3,13 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .submissionDIV {
-    height:130px;
+    padding: 20px;
+}
+
+.searchErrors {
+    background-color:#FFCCCC;
+    color: #E30000;
+    padding: 2px 4px;
 }
 
 .gmnoprint img { 
@@ -16,7 +22,7 @@
 }
 
 .agendamapbtn{
-    padding: 5px 12px;
+    padding: 5px 10px;
     font-size: 14px;
     font-weight: 700;
     color: #fff;
