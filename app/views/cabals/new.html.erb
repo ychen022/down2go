@@ -19,7 +19,7 @@
     <div class="control-group">
     <%= label_tag(:date, "Activity date") %>
       <div class="controls">
-      <%= date_field_tag(:date) %>
+      <%= date_field_tag(:date, nil, min: Date.today.to_s(:db)) %>
       </div>
     </div>
     <div class="control-group">
