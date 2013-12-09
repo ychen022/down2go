@@ -42,6 +42,10 @@ ready = function() {
       $member_area.css("display", "none");
     }
   });
+  
+  $('#has_car').change(function(){
+    direction_update_all();
+  });
 
   // Shows the infowindow and direction associated with the marker when clicked
   $(document).on('click', '.agendaitem', function(){

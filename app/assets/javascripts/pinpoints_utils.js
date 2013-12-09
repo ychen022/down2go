@@ -1,7 +1,7 @@
 // Insert the new pinpoint data. First insert a new agenda item into agenda,
 // and then insert a new marker onto the map.
 var updateAgendaArray = function(id, time, place, latitude, longitude){
-  agenda_info.add({'id': id, 'time':time, 'place':place});
+  agenda_info.add({'id': id, 'time':time, 'place':place, 'latitude':latitude, 'longitude':longitude});
   agenda_info.sort();
   
   addPinToMap(id, time, place, latitude, longitude);
