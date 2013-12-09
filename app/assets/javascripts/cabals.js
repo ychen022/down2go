@@ -27,6 +27,7 @@ Remnant_markers = function(){
 
 Pinpoints = function(){
   var pins = {};
+  google.maps.InfoWindow.prototype.opened = false;
   return {
     all: function() {return pins;},
     get: function(id) {return pins[id];},
@@ -37,10 +38,17 @@ Pinpoints = function(){
         delete pins[id];
       }
     },
-    openInfoWindow: function(id) {
+    toggleInfoWindow: function(id) {
       var pin = pins[id];
       var infoWindow = pin.infowindow;
-      infoWindow.open(map, pin);
+      if(infoWindow.opened){
+          infoWindow.close();
+          infoWindow.opened = false;
+      }
+      else{
+          infoWindow.open(map, pin);
+          infoWindow.opened = true;
+      }
     }
   };
 }
@@ -118,7 +126,7 @@ ready = function() {
 
   $(document).on('click', '.agendalist', function(){
     var id = $(this).attr("id");
-    ppoints.openInfoWindow(id);
+    ppoints.toggleInfoWindow(id);
   });
   
   $('#message_content').keypress(function(evt){
