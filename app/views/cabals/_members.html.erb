@@ -1,15 +1,23 @@
-<div id="memberslist">
-    <strong>Members: </strong>
-    <%= @cabal.users.map{|user|user.username}.join(", ")%>
+<div class="memberAreaDIV">
+    <div id="title">
+        "<%= @cabal.name %>" <br />
+        <%= @cabal.activity_date %> 
+    (<%= link_to "leave cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
+  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>)
+
+        </div>
+
+    <div id="memberslist">
+        <strong>Members: </strong>
+        <%= @cabal.users.map{|user|user.username}.join(", ")%>
+    </div>
+
+
+    <div id="addmembernotice">
+    </div>
+
+    <%= form_tag(add_cabal_member_path(@cabal), remote: true) do %>
+        <%= text_field_tag(:username, nil, :class => "span2" , placeholder: "Username to invite") %>
+        <%= submit_tag("go", :class=> "submitBtn pull-right" ) %>
+    <% end %>
 </div>
-
-<br /><br />
-
-<div id="addmembernotice">
-</div>
-
-<%= form_tag(add_cabal_member_path(@cabal), remote: true) do %>
-    <%= label_tag(:username, "Username to invite to cabal") %>
-    <%= text_field_tag(:username, nil, :class => "span2" ) %>
-    <%= submit_tag("go", :class=> "submitBtn pull-right" ) %>
-<% end %>

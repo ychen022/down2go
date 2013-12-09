@@ -13,16 +13,29 @@ max-width: none;
 
 .submissionDIV {
     padding: 20px;
+    padding-top:10px;
+    height:20%;
 }
 
-.welcomeAgenda{
-    padding: 10px 10px 0px 10px;
+.memberAreaDIV{
+    padding:10px;
+}
+
+#memberslist{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+
+#searchErrorsDIV{
+    margin-top:10px;
 }
 
 .searchErrors {
-    background-color:#FFCCCC;
-    color: #E30000;
+    background-color:#F5F5F5;
+    color: #DB8888;
     padding: 2px 4px;
+    font-size:0.9em;
 }
 
 .gmnoprint img { 
@@ -35,8 +48,8 @@ max-width: none;
 }
 
 .agendamapbtn{
-    padding: 5px 10px;
-    font-size: 14px;
+    padding: 4px 10px;
+    font-size: 12px;
     font-weight: 700;
     color: #fff;
     background-color: #B0B0B0;
@@ -54,7 +67,7 @@ max-width: none;
 }
 
 .timedropdown{
-    width: 100px;
+    width: 110px;
 }
 
 .amdropdown{
@@ -64,8 +77,9 @@ max-width: none;
 }
 
 .agenda-addbtn{
-    padding: 5px 12px;
-    font-size: 14px;
+    padding: 4px 12px;
+    margin-right:4px;
+    font-size: 12px;
     font-weight: 700;
     color: #fff;
     background-color: #9A79BD;
@@ -94,11 +108,9 @@ max-width: none;
     padding:10px;
 }
 
-#pinpoints_info {
-    height: 100%;
+.checkBoxDIV{
+    padding: 10px 20px;
 }
-
-
 
 #gomembers{
     width: 100px;
@@ -106,18 +118,18 @@ max-width: none;
     padding: 10px 10px;
     text-align: center;
     display: inline-block;
-    background-color: #FADD00;
+    background-color: #BDA58E;
     color: #fff;
     font-weight: 700;
     border-radius: 0px 5px 5px 0px;
-    -webkit-box-shadow: 0 3px 0px #D4BB00;
-    -moz-box-shadow: 0 3px 0px #D4BB00;
-    box-shadow: 0 3px 0px #D4BB00;
+    -webkit-box-shadow: 0 3px 0px #A8937E;
+    -moz-box-shadow: 0 3px 0px #A8937E;
+    box-shadow: 0 3px 0px #A8937E;
     cursor: pointer;
 }
 
 #gomembers:hover{
-    background-color: #F2D600;
+    background-color: #998673;
     text-decoration: none;
     color: #fff;
 }
@@ -128,18 +140,18 @@ max-width: none;
     padding: 10px 10px;
     text-align: center;
     display: inline-block;
-    background-color: #FFBB00;
+    background-color: #B0B4BF;
     color: #fff;
     font-weight: 700;
     border-radius: 5px 0px 0px 5px;
-    -webkit-box-shadow: 0 3px 0px #E3A600;
-    -moz-box-shadow: 0 3px 0px #E3A600;
-    box-shadow: 0 3px 0px #E3A600;
+    -webkit-box-shadow: 0 3px 0px #939AAD;
+    -moz-box-shadow: 0 3px 0px #939AAD;
+    box-shadow: 0 3px 0px #939AAD;
     cursor: pointer;
 }
 
 #gochat:hover{
-    background-color: #F5B400;
+    background-color: #A4ABBD;
     text-decoration: none;
     color: #fff;
 }
@@ -156,11 +168,11 @@ max-width: none;
 }
 
 .routeok{
-    color: #078500;
+    color: #4EAD4E;
 }
 
 .routebad{
-    color: #DB0000;
+    color: #CC5454;
 }
 
 .popover-content {

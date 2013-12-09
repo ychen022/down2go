@@ -1,13 +1,11 @@
-<div class = "welcomeAgenda">
-    Welcome to cabal "<%= @cabal.name %>" for <%= @cabal.activity_date %> <br />
-    (<%= link_to "leave cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
-  someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>)
-</div>
 
 <div id="findonmapDIV" class="submissionDIV">
-    <p class="agendalabel">Enter your place here:</p>
-    <input class="inputWrap" id="address" placeholder="MIT, Cambridge" type="text">
-    <button type="button" id="check-on-map" class="agendamapbtn">1. see it on the map!</button><br>
+    <input class="inputWrap" id="address" placeholder="place (ie. MIT, Cambridge)" type="text">
+    <button type="button" id="check-on-map" class="agendamapbtn">1. see it on the map!</button>
+
+    <div id="searchErrorsDIV">
+    </div>
+
 </div>
 
 <div id="addtoagendaDIV" class="submissionDIV" style="display:none">
@@ -44,16 +42,13 @@
         <%= f.hidden_field :time, :class => 'pinpoint-time-hidden', :value => "12:00 PM" %>
         <%= f.hidden_field :cabal_id, :value => @message.cabal_id %>
         <%= f.hidden_field :cabal_date, :class => 'cabal-date-hidden', :value => @cabal.activity_date %>
-        <%= f.submit "add to agenda!", class: "agenda-addbtn" %>
-        <button type="button" id="backToFind" class="agendamapbtn pull-right">back</button><br>
+        <%= f.submit "add to agenda!", class: "agenda-addbtn pull-left" %>
+        <button type="button" id="backToFind" class="agendamapbtn pull-left">back</button><br>
     <% end %>
 </div>
 
-<div id="searchErrorsDIV">
-</div>
-
-<div class="welcomeAgenda" id="agenda_operations">
-  <input type="checkbox" id="has_car" value="car"> Check if driving</input><br />
+<div class="checkBoxDIV" id="agenda_operations">
+    <input type="checkbox" id="has_car" value="car"> Check if driving</input><br />
 </div>
 
 <div id="pinpointsDIV">

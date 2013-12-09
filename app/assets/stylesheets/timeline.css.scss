@@ -1,11 +1,16 @@
 #pinpointsDIV {
-    height: 50%;
+    height: 64%;
     overflow:auto;
 }
+
+#pinpoints_info {
+}
+
+
 .cbp_tmtimeline {
     margin: 0px 0 0 0;
     padding: 0;
-    padding-top:10px;
+    padding-top:8px;
     list-style: none;
     position: relative;
 } 
@@ -17,7 +22,7 @@
     top: 0;
     bottom: 0;
     width: 5px;
-    background: #afdcf8;
+    background: #D9D9D9;
     left: 20%;
     margin-left: -20px;
 }
@@ -30,25 +35,28 @@
 /* Right content */
 .cbp_tmtimeline > li .cbp_tmlabel {
     margin: 0 0px 15px 25%;
-    background: #3594cb;
-    color: #fff;
+    background: #DEDEDE;
+    color: #616161;
     padding: 5px;
     position: relative;
     border-radius: 5px;
 }
  
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel {
-    background: #6cbfee;
+    background: #F5F5F5;
 }
  
 .cbp_tmtimeline > li .cbp_tmlabel h2 { 
     font-size:1.3em;
     margin-top: 0px;
     padding: 0px 0px 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
+    border-bottom: 1px solid #ADADAD;
     line-height:100%;
     font-weight:700;
-    color: #fff;
+    color: #B0B0B0;
+}
+.cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel h2{
+    border-bottom: 1px solid #D4D4D4;
 }
  
 /* The triangle */
@@ -60,13 +68,13 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-right-color: #3594cb;
+    border-right-color: #DEDEDE;
     border-width: 10px;
     top: 10px;
 }
  
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel:after {
-    border-right-color: #6cbfee;
+    border-right-color: #F5F5F5;
 }
  
 /* The icons */
@@ -75,9 +83,9 @@
     height: 10px;
     position: absolute;
     color: #fff;
-    background: #46a4da;
+    background: #7D7D7D;
     border-radius: 50%;
-    box-shadow: 0 0 0 8px #afdcf8;
+    box-shadow: 0 0 0 8px #D9D9D9;
     left: 20%;
     top: 0;
     margin: 0 0 0 -22px;
