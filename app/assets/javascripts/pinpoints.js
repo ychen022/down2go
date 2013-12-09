@@ -1,7 +1,9 @@
 //This data structure represents all the markers (that compose the agenda) and their related
 //direction results on the map. 
 Pinpoints = function(){
+  // Markers on the map
   var pins = {};
+  // Direction results between pairs of markers
   var directions = {};
 
   //Google Map does not support an function to check if an infoWindow is open for a pinpoint
@@ -48,6 +50,7 @@ Pinpoints = function(){
           infoWindow.open(map, pin);
           infoWindow.opened = true;
       }
+      // If the marker's id is associated with a direction result, display it.
       if (directions[id]){
         directionsDisplay.setDirections(directions[id]);
       }

@@ -21,8 +21,10 @@ AgendaInfo = function(){
     //sort all of the items in the agenda by time
     sort: function() {
       agenda_info.sort(function(a,b){
+        // Get the hour numbers
         var ah = parseInt(a.time.substring(0,2));
         var bh = parseInt(b.time.substring(0,2));
+        // Convert the hour numbers to a 24 hour format.
         if ((a.time.substring(6,8)==="PM") && (a.time.substring(0,2)!="12")){
           ah+=12;
         }else if((a.time.substring(6,8)==="AM") && (a.time.substring(0,2)==="12")){
