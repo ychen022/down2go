@@ -154,5 +154,10 @@ var direction_update_all = function(){
     for (var i=0;i<aInfo.length-1;i++){
       get_direction(aInfo[i], aInfo[i+1], car);
     }
+    // Removes the direction content from the last item in agenda info array.
+    var vDiv = $('#'+aInfo[aInfo.length-1].id);
+    if (vDiv.children('div.route_info')!=0){
+        $('div.route_info','#'+aInfo[aInfo.length-1].id).remove();
+    }
 }
 </script>
