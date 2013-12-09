@@ -1,5 +1,5 @@
 <div class = "welcomeAgenda">
-    Welcome to cabal "<%= @cabal.name %>" <br />
+    Welcome to cabal "<%= @cabal.name %>" for <%= @cabal.activity_date %> <br />
     (<%= link_to "leave cabal", quit_cabal_path(@cabal),:confirm=>("You will not be able to return to the cabal unless\
   someone invites you again. Additionally, if you are the only person in the cabal, the cabal will be deleted. Confirm quitting?") %>)
 </div>
@@ -52,14 +52,13 @@
 <div id="searchErrorsDIV">
 </div>
 
-<hr>
+<div class="welcomeAgenda" id="agenda_operations">
+  <input type="checkbox" id="has_car" value="car"> Check if driving</input><br />
+</div>
 
 <div id="pinpointsDIV">
     <ul id="pinpoints_info" class="cbp_tmtimeline" >
     </ul>
 </div>
 
-<div id="agenda_operations">
-  <input type="checkbox" id="has_car" value="car">Has car</input><br />
-</div>
 
