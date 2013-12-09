@@ -102,7 +102,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
     if (leave_at<time_to_utc(start.time)){
             // When the latest departure time to reach the next place is earlier than the time the cabal arrives at the
             // current place, display an error message
-            vDiv.html('<p class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-warning-sign routebad"></i></p>');
+            vDiv.html('<p class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <span class="glyphicon glyphicon-warning-sign routebad"></span></p>');
 
             console.log("agenda error appended");
     }else{
@@ -111,7 +111,7 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
         // Otherwise, display the latest departure time
         var nd = new Date(leave_at*1000);
 
-        vDiv.html('<p class="pop routeok" data-content="You need to leave for the next agenda item at ' +nd.toLocaleTimeString()+ '. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-ok routeok"></i></p>');
+        vDiv.html('<p class="pop routeok" data-content="You need to leave for the next agenda item at ' +nd.toLocaleTimeString()+ '. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <span class="glyphicon glyphicon-ok routeok"></span></p>');
 
         /*
            vDiv.append('<div class="route_info">\
