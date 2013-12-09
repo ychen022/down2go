@@ -91,9 +91,7 @@ max-width: none;
 }
 
 #pinpoints_info {
-    height: 50%;
-    overflow: scroll;
-    overflow-x: hidden;
+    height: 100%;
 }
 
 
@@ -151,4 +149,12 @@ max-width: none;
 
 .addmemberresponse{
     color:#326085;
+}
+
+.routeok{
+    color: #078500;
+}
+
+.routebad{
+    color: #DB0000;
 }

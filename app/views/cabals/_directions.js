@@ -90,24 +90,47 @@ var get_direction=function(start, end, car){
 // method: description of the transportation method
 var update_agenda_with_direction = function(start, end, dResult, leave_at, method){
     console.log("Updating agenda: "+start.id);
-    var vDiv = $('#'+start.id);
-    if (vDiv.children('div.route_info')!=0){
-        $('div.route_info','#'+start.id).remove();
-    }
+    var vDiv = $('#'+start.id).find('.routeEval');
+
+    //If an evaluation already exiss
+    /*
+       if (vDiv.find('span.route_info')!=0){ 
+       $('span.route_info','#'+start.id).remove();
+       }
+       */
+
     if (leave_at<time_to_utc(start.time)){
         // Display error message
-        vDiv.append('<div class="route_info">\
-                You will not make it to the next agenda item in time. <br />\
-                The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
-                </div>');
+        vDiv.html('<a class="pop routebad" data-content="Hello!">route evaluation <i class="icon-warning-sign routebad"></i></a>');
+
+        $('.pop').popover({
+            'placement': 'top'
+        });
+
+        /* 
+           <div class="route_info">\
+           You will not make it to the next agenda item in time. <br />\
+           The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
+           </div>'); */
         console.log("agenda error appended");
     }else{
         // Display ideal departure time
         var nd = new Date(leave_at*1000);
+
+        vDiv.html('<a class="pop routeok" data-content="HELLO">route evaluation <i class="icon-ok routeok"></i></a>');
+
+
+        $('.pop').popover({
+            'placement': 'top'
+        });
+        /*
+           vDiv.html('route evaluation <span class="route_info"><a href="#" data-toggle="popover" data-content="You need to leave for the next agenda item at"><span class="glyphicon glyphicon-remove"></span></a></span>');
+        /*
         vDiv.append('<div class="route_info">\
-                You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
-                The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
-                </div>');
+        You need to leave for the next agenda item at '+nd.toLocaleTimeString()+'. <br />\
+        The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.\
+        </div>');
+        */
         console.log("agenda notice appended");
     }
 }
@@ -152,7 +175,7 @@ var direction_update_all = function(){
     var aInfo = agenda_info.all();
     direction_loop_delayed(aInfo, 0, aInfo.length-1, car);
     for (var i=0;i<aInfo.length-1;i++){
-      get_direction(aInfo[i], aInfo[i+1], car);
+        get_direction(aInfo[i], aInfo[i+1], car);
     }
 }
 </script>
