@@ -9,6 +9,9 @@ var updateAgendaArray = function(id, time, place, latitude, longitude){
 
 // Create a new marker with id, place, time, latitude and longitude,
 // and then cache the marker.
+// id: id of pinpoint in database
+// time: a string of format HH:MM AM(PM)
+// place: the customized name/memo of the pinpoint
 var add_pin=function(id, place, time, latitude, longitude) {
 
     var Latlng = new google.maps.LatLng(latitude, longitude);
@@ -45,30 +48,15 @@ var add_pin=function(id, place, time, latitude, longitude) {
     });
 }
 
-var updateAgendaWithDirection = function(id, time, place){
-  updateAgendaArray(id, time, place);
-  var aInfo = agenda_info.all();
-  var car=$('#has_car').prop('checked');
-  for (var i=0;i<aInfo.length-1;i++){
-    if (aInfo[i].id===id){
-      if (i===0){
-        direction_loop_delayed(aInfo, i, i+1, car);
-      }else if (i===aInfo.length-2){
-        direction_loop_delayed(aInfo, i-1, i, car);
-      }else{
-        direction_loop_delayed(aInfo, i-1, i+1, car);
-      }
-      break;
-    }
-  }
-}
-
 // Clear the agenda.
 var clearAgendaArray = function(){
   agenda_info.clear();
 }
 
 // Add a specific pinpoint(marker) onto the map.
+// id: id of pinpoint in database
+// time: a string of format HH:MM AM(PM)
+// place: the customized name/memo of the pinpoint
 var addPinToMap = function(id, time, place, latitude, longitude){
   add_pin(id, place, time, latitude, longitude);
 }

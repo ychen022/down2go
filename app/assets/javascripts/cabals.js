@@ -44,11 +44,13 @@ ready = function() {
     }
   });
 
+  // Shows the infowindow and direction associated with the marker when clicked
   $(document).on('click', '.agendaitem', function(){
     var id = $(this).attr("id");
     ppoints.toggleInfoWindow(id);
   });
   
+  // Allows the user to send chat message through pressing enter
   $('#message_content').keypress(function(evt){
     var charCode = (evt.which) ? evt.which : window.event.keyCode; 
 		if (charCode == 13){ 
