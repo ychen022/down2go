@@ -72,10 +72,13 @@ var reassign_marker_icons = function(){
   console.log("starting marker reassignment");
   aInfo = agenda_info.all();
   for (var i=0; i<aInfo.length;i++){
-    var ROOT_PATH = '<%= root_url %>';
-    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png";
+    //var ROOT_PATH = '<%= root_url %>';
+    //var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png";
+    var imgbase = '<%= image_path("markers/marker.png") %>'
+    var mypartial = (i+1)+".png";
+    var finalimg = imgbase.substring(0, imgbase.length-4)+mypartial;
     var pm = ppoints.get(aInfo[i].id);
-    pm.setIcon(imgpath);
+    pm.setIcon(finalimg);
   }
 }  
 
