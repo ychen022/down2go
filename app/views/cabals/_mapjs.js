@@ -48,6 +48,8 @@ var initialize=function() {
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
     <% @pinpoints.each do |p| %>
         var place_id = '<%= p.id %>';
     var place_name = '<%= p.place %>';

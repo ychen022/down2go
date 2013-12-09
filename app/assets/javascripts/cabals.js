@@ -5,6 +5,7 @@ var remnant_markers;
 var geocoder;
 var map;
 var directionsService;
+var directionsDisplay;
 
 Remnant_markers = function(){
   var markers = [];
@@ -27,15 +28,21 @@ Remnant_markers = function(){
 
 Pinpoints = function(){
   var pins = {};
+  var directions = {};
   google.maps.InfoWindow.prototype.opened = false;
   return {
     all: function() {return pins;},
     get: function(id) {return pins[id];},
     add: function(id, marker) {pins[id]=marker;},
+    add_direction: function(id, direction) {directions[id]=direction;},
+    get_direction: function(id) {return directions[id];},
     remove: function(id) {
       if (pins[id]!=null){
         pins[id].setMap(null);
         delete pins[id];
+      }
+      if (directions[id]!=null){
+        delete directions[id];
       }
     },
     toggleInfoWindow: function(id) {
@@ -48,6 +55,9 @@ Pinpoints = function(){
       else{
           infoWindow.open(map, pin);
           infoWindow.opened = true;
+      }
+      if (directions[id]){
+        directionsDisplay.setDirections(directions[id]);
       }
     }
   };
