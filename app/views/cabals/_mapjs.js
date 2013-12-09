@@ -24,6 +24,7 @@ $(function(){
     channel.bind('delete-pinpoint', function(data){
         removeAgendaItem(data.id);
         removePinFromMap(data.id);
+        reassign_marker_icons();
         // Subpar solution. May cause OVER_QUERY_LIMIT
         setTimeout(direction_update_all, 20);
     });
@@ -35,7 +36,8 @@ $(function(){
 </script>
 
 <script type="text/javascript">
-var image = '<%= image_path("pin.png") %>';
+var image = '<%= image_path("markers/marker.png") %>';
+console.log(image);
 
 var initialize=function() {
     geocoder = new google.maps.Geocoder();
@@ -82,11 +84,29 @@ var add_pin=function(id, place, time) {
               infowindowopen.open(map, marker);
             });
             ppoints.add(id, marker);
+            reassign_marker_icons();
             //pins[id] =  marker;
         }
     });
     console.log("Pin added");
 }
+
+var reassign_marker_icons = function(){
+  console.log("starting marker reassignment");
+  aInfo = agenda_info.all();
+  for (var i=0; i<aInfo.length;i++){
+    var ROOT_PATH = '<%= root_url %>';
+    var path = "'markers/marker"+i+".png'";
+    console.log(ROOT_PATH);
+    //var imgpath = "<%= image_path("+path+") %>";
+    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png"
+    console.log(imgpath, aInfo[i].id);
+    var pm = ppoints.get(aInfo[i].id);
+    console.log(ppoints.all());
+    console.log("YOOOO",pm);
+    pm.setIcon(imgpath);
+  }
+}  
 
 var get_direction=function(start, end, car){
   if (car){
