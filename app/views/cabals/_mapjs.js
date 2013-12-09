@@ -39,8 +39,10 @@ var image = '<%= image_path("pin.png") %>';
 
 var initialize=function() {
     geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(42.3581, -71.063);
     var mapOptions = {
         zoom: 12,
+        center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -55,6 +57,8 @@ var initialize=function() {
     <% end %>
         console.log("Map initialized");
 }
+
+var infowindowopen;
 
 var add_pin=function(id, place, time, latitude, longitude) {
     console.log("Adding pin");
@@ -71,17 +75,16 @@ var add_pin=function(id, place, time, latitude, longitude) {
     contentNode.className = "infowindow_content";
     // Replace with desired string or dom element for the marker
     var nodeContent = document.createElement("p");
-    nodeContent.innerHTML = place+", "+time;
+    nodeContent.innerHTML = id+", "+place+", "+time;
     contentNode.appendChild(nodeContent);
+
 
     marker.infowindow = new google.maps.InfoWindow({
       content: contentNode
     });
     google.maps.event.addListener(marker, 'click', function(){
-
       marker.infowindow.open(map, marker);
       infowindow.open(map, marker);
-
     });
     ppoints.add(id, marker);
     //pins[id] =  marker;
@@ -239,26 +242,28 @@ $(function(){
     initialize();
 
     var check_on_map = function(){
-      remnant_markers.clear();
-      var address = document.getElementById('address').value;
-      geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-              var loc = results[0].geometry.location;
-              map.setCenter(loc);
-              var marker = new google.maps.Marker({
-                  map: map,
-                  position: loc
-              });
-              remnant_markers.add_marker(marker);
-              $( "input[name='pinpoint[place]']" ).val(address);
-              $( "input[name='pinpoint[latitude]']" ).val(loc.pb);
-              $( "input[name='pinpoint[longitude]']" ).val(loc.qb);
-          } else {
-              alert('Geocode was not successful for the following reason: ' + status);
-          }
-      });
-      $('#findonmapDIV').hide();
-      $('#addtoagendaDIV').show();
+        remnant_markers.clear();
+        var address = document.getElementById('address').value;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var loc = results[0].geometry.location;
+                map.setCenter(loc);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: loc
+                });
+                remnant_markers.add_marker(marker);
+                $( "input[name='pinpoint[place]']" ).val(address);
+                $( "input[name='pinpoint[latitude]']" ).val(loc.pb);
+                $( "input[name='pinpoint[longitude]']" ).val(loc.qb);
+                $('#searchErrorsDIV').html('');
+            } else {
+                $('#addtoagendaDIV').hide();
+                $('#findonmapDIV').show();
+                $('#searchErrorsDIV').html('<div class="searchErrors">GeoSearch failed. Did you enter a valid location?</div>');
+//                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
     };
 
     $('#address').keypress(function(evt){
@@ -270,7 +275,9 @@ $(function(){
     });
 
     $('#check-on-map').click(function(){
-      check_on_map();
+        check_on_map();
+        $('#findonmapDIV').hide();
+        $('#addtoagendaDIV').show();
     });
 
     $('#check_agenda').click(function(){
