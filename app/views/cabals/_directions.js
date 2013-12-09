@@ -100,10 +100,11 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
 
     if (leave_at<time_to_utc(start.time)){
         // Display error message
-        vDiv.html('<a class="pop routebad" data-content="Hello!">route evaluation <i class="icon-warning-sign routebad"></i></a>');
+        vDiv.html('<a class="pop routebad" data-content="You will not make it to the next agenda item in time. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-warning-sign routebad"></i></a>');
 
         $('.pop').popover({
-            'placement': 'top'
+            'placement': 'left',
+            container: 'body'
         });
 
         /* 
@@ -116,11 +117,12 @@ var update_agenda_with_direction = function(start, end, dResult, leave_at, metho
         // Display ideal departure time
         var nd = new Date(leave_at*1000);
 
-        vDiv.html('<a class="pop routeok" data-content="HELLO">route evaluation <i class="icon-ok routeok"></i></a>');
+        vDiv.html('<a class="pop routeok" data-content="You need to leave for the next agenda item at ' +nd.toLocaleTimeString()+ '. The travel time required is '+dResult.routes[0].legs[0].duration.text+' by '+method+'.">route evaluation <i class="icon-ok routeok"></i></a>');
 
 
         $('.pop').popover({
-            'placement': 'top'
+            'placement': 'left',
+            container: 'body'
         });
         /*
            vDiv.html('route evaluation <span class="route_info"><a href="#" data-toggle="popover" data-content="You need to leave for the next agenda item at"><span class="glyphicon glyphicon-remove"></span></a></span>');
