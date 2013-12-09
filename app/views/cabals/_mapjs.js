@@ -74,7 +74,7 @@ var reassign_marker_icons = function(){
   aInfo = agenda_info.all();
   for (var i=0; i<aInfo.length;i++){
     var ROOT_PATH = '<%= root_url %>';
-    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png"
+    var imgpath = ROOT_PATH+"assets/markers/marker"+(i+1)+".png";
     var pm = ppoints.get(aInfo[i].id);
     pm.setIcon(imgpath);
   }
