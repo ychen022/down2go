@@ -15,6 +15,7 @@ var updateAgendaArray = function(id, time, place, latitude, longitude){
 var add_pin=function(id, place, time, latitude, longitude) {
 
     var Latlng = new google.maps.LatLng(latitude, longitude);
+    map.setCenter(Latlng);
 
     //Create a new marker
     var marker = new google.maps.Marker({

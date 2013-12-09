@@ -39,22 +39,27 @@ $(function(){
 </script>
 
 <script type="text/javascript">
-//var image = '<%= image_path("markers/marker.png") %>';
 
+//initialize the map settings on the page
 var initialize=function() {
     geocoder = new google.maps.Geocoder();
+
     var latlng = new google.maps.LatLng(42.3581, -71.063);
+
     var mapOptions = {
         zoom: 12,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+
+    //initialzize tha map
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
     directionsService = new google.maps.DirectionsService();
     <% @pinpoints.each do |p| %>
         var place_id = '<%= p.id %>';
-    var place_name = '<%= p.place %>';
-    var place_latitude = '<%= p.latitude %>'
+        var place_name = '<%= p.place %>';
+        var place_latitude = '<%= p.latitude %>'
         var place_longitude = '<%= p.longitude %>'
         var place_time = '<%= p.time %>';
     add_pin(place_name, place_time, place_latitude, place_longitude);
@@ -62,6 +67,7 @@ var initialize=function() {
         console.log("Map initialized");
 }
 
+//give each marker a unique id
 var reassign_marker_icons = function(){
   console.log("starting marker reassignment");
   aInfo = agenda_info.all();

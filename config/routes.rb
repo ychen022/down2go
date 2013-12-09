@@ -1,18 +1,22 @@
 FinalProj::Application.routes.draw do
 
-  devise_for :users
-  root :to => 'cabals#index'
+  	devise_for :users
+  	root :to => 'cabals#index'
 	
 	get '/cabals', to: "cabals#index", as: "cabals"
 	get '/cabals/:id', to: "cabals#show", as: "cabal"
-  post '/cabals/:id/users', to: "cabals#add_member", as: "add_cabal_member"
+  	post '/cabals/:id/users', to: "cabals#add_member", as: "add_cabal_member"
 	get '/cabals/:id/quit', to: "cabals#quit_cabal", as: "quit_cabal"
 	get '/newcabal', to: "cabals#new", as: "new_cabal"
 	post '/newcabal', to: "cabals#create", as: "create_cabal"
 
-  resources :messages, only: [:create]
-  resources :pinpoints, only: [:create, :destroy]
+  	resources :messages, only: [:create]
+  	resources :pinpoints, only: [:create, :destroy]
 	get '/cabals/:id/sync', to: "cabals#sync", as: "sync_cabal"
+
+  	#redirect all non-recognized paths to root
+  	match '*path', to: redirect('/'), via: 'get'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
