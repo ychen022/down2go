@@ -44,8 +44,11 @@ $(function(){
 var initialize=function() {
     geocoder = new google.maps.Geocoder();
 
+    var latlng = new google.maps.LatLng(42.3581, -71.063);
+
     var mapOptions = {
         zoom: 12,
+        center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
@@ -74,7 +77,7 @@ var initialize=function() {
         console.log("Map initialized");
 }
 
-//give each marker an unique icon
+//give each marker a unique id
 var reassign_marker_icons = function(){
   console.log("starting marker reassignment");
   aInfo = agenda_info.all();
