@@ -12,8 +12,8 @@ var geo_check_ready = function() {
             });
             remnant_markers.add_marker(marker);
             $( "input[name='pinpoint[place]']" ).val(address);
-            $( "input[name='pinpoint[latitude]']" ).val(loc.pb);
-            $( "input[name='pinpoint[longitude]']" ).val(loc.qb);
+            $( "input[name='pinpoint[latitude]']" ).val(loc.lat());
+            $( "input[name='pinpoint[longitude]']" ).val(loc.lng());
             $('#searchErrorsDIV').html('');
         } else {
             $('#addtoagendaDIV').hide();
